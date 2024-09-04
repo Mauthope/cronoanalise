@@ -22,8 +22,6 @@
             margin: 2px;
         }
     </style>
-    <!-- Adiciona a biblioteca SheetJS para exportação para Excel -->
-    <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
 </head>
 <body>
     <h1>Formulário de Cronoanálise</h1>
@@ -45,8 +43,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Repete o bloco de linhas para 15 atividades -->
-                <!-- Linha 1 -->
+                <!-- Primeira Linha -->
                 <tr>
                     <td><input type="text" id="atividade1" placeholder="Descreva a atividade"></td>
                     <td><button type="button" onclick="capturePhoto('foto1')">Foto</button><img id="foto1" style="width: 100px; display: none;"></td>
@@ -60,7 +57,26 @@
                     <td><span id="somaTempo1">0:00</span></td>
                     <td><input type="text" id="melhorias1" placeholder="Sugestões de melhoria"></td>
                 </tr>
-                <!-- Adicione mais 14 linhas aqui... -->
+                
+                <!-- Replicar este bloco para mais 14 linhas -->
+                <!-- Linha 2 -->
+                <tr>
+                    <td><input type="text" id="atividade2" placeholder="Descreva a atividade"></td>
+                    <td><button type="button" onclick="capturePhoto('foto2')">Foto</button><img id="foto2" style="width: 100px; display: none;"></td>
+                    <td><button type="button" onclick="startTimer(2)">Start</button></td>
+                    <td><button type="button" onclick="stopTimer(2)">Stop</button></td>
+                    <td><span id="cronometro1-2">0:00</span></td>
+                    <td><span id="cronometro2-2">0:00</span></td>
+                    <td><span id="cronometro3-2">0:00</span></td>
+                    <td><span id="cronometro4-2">0:00</span></td>
+                    <td><span id="cronometro5-2">0:00</span></td>
+                    <td><span id="somaTempo2">0:00</span></td>
+                    <td><input type="text" id="melhorias2" placeholder="Sugestões de melhoria"></td>
+                </tr>
+                
+                <!-- Repita até a linha 15 -->
+                <!-- Linhas adicionais aqui... -->
+
                 <!-- Última Linha (Linha 15) -->
                 <tr>
                     <td><input type="text" id="atividade15" placeholder="Descreva a atividade"></td>
@@ -78,8 +94,6 @@
             </tbody>
         </table>
     </form>
-    <!-- Botão de Download -->
-    <button onclick="exportToExcel()">Download Excel</button>
 
     <script>
         const timers = Array.from({ length: 15 }, () => [0, 0, 0, 0, 0]);
@@ -142,31 +156,6 @@
                 .catch((err) => {
                     alert('Erro ao acessar a câmera: ' + err);
                 });
-        }
-
-        function exportToExcel() {
-            const wb = XLSX.utils.book_new();
-            const ws_data = [['Atividade', 'Foto', 'Cronômetro 1', 'Cronômetro 2', 'Cronômetro 3', 'Cronômetro 4', 'Cronômetro 5', 'Soma do Tempo', 'Melhorias']];
-
-            for (let i = 1; i <= 15; i++) {
-                const atividade = document.getElementById(`atividade${i}`).value;
-                const foto = document.getElementById(`foto${i}`).src;
-                const cronometros = [
-                    document.getElementById(`cronometro1-${i}`).textContent,
-                    document.getElementById(`cronometro2-${i}`).textContent,
-                    document.getElementById(`cronometro3-${i}`).textContent,
-                    document.getElementById(`cronometro4-${i}`).textContent,
-                    document.getElementById(`cronometro5-${i}`).textContent,
-                ];
-                const somaTempo = document.getElementById(`somaTempo${i}`).textContent;
-                const melhorias = document.getElementById(`melhorias${i}`).value;
-
-                ws_data.push([atividade, foto, ...cronometros, somaTempo, melhorias]);
-            }
-
-            const ws = XLSX.utils.aoa_to_sheet(ws_data);
-            XLSX.utils.book_append_sheet(wb, ws, 'Cronoanálise');
-            XLSX.writeFile(wb, 'cronoanalise.xlsx');
         }
     </script>
 </body>
