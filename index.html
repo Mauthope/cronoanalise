@@ -3,6 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Cronoanálise</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        button {
+            padding: 5px 10px;
+            margin: 2px;
+        }
+        img {
+            width: 100px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>Formulário de Cronoanálise</h1>
+    <form id="cronoanalise-form">
+        <table>
+            <thead>
+                <tr>
+                    <th>Atividade</th>
+                    <th>Foto</th>
+                    <th>Start</th>
+                    <th>Stop</th>
+                    <th>Cronômetro 1</th>
+                    <th>Cronômetro 2</th>
+                    <th>Cronômetro 3</th>
+                    <th>Cronômetro 4</th>
+                    <th>Cronômetro 5</th>
+                    <th>Soma do Tempo</th>
+                    <th>Melhorias</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 15 Linhas Repetidas -->
+                <!-- Linha 1 -->
+                <tr>
+                    <td><input type="text" placeholder="Descreva a atividade"></td>
+                    <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
+                    <td><button type="button" onclick="startTimer(1)">Start</button></td>
+                    <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
+                    <td><span id="cronometro1_1">0:00</span></td>
+                    <td><span id="cronometro1_2">0:00</span></td>
+                    <td><span id="cronometro1_3">0:00</span></td>
+                    <td><span id="cronometro1_4">0:00</span></td>
+                    <td><span id="cronometro1_5">0:00</span></td>
+                    <td><span id="somaTempo1">0:00</span></td>
+                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
+                </tr>
+                <!-- Linhas 2 a 15 (Exemplo para Linha 2) -->
+                <tr>
+                    <td><input type="text" placeholder="Descreva a atividade"></td>
+                    <td><button type="button" onclick="capturePhoto(2)">Foto</button><img id="foto2"></td>
+                    <td><button type="button" onclick="startTimer(2)">Start</button></td>
+                    <td><button type="button" onclick="stopTimer(2)">Stop</button></td>
+                    <td><span id="cronometro2_1">0:00</span></td>
+                    <td><span id="cronometro2_2">0:00</span></td>
+                    <td><span id="cronometro2_3">0:00</span></td>
+                    <td><span id="cronometro2_4">0:00</span></td>
+                    <td><span id="cronometro2_5">0:00</span></td>
+                    <td><span id="somaTempo2">0:00</span></td>
+                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
+                </tr>
+                <!-- Repetir mais 13 vezes (totalizando 15 linhas) -->
+                <!-- ... -->
+                <!-- Linha 15 -->
+                <tr>
+                    <td><input type="text" placeholder="Descreva a atividade"></td>
+                    <td><button type="button" onclick="capturePhoto(15)">Foto</button><img id="foto15"></td>
+                    <td><button type="button" onclick="startTimer(15)">Start</button></td>
+                    <td><button type="button" onclick="stopTimer(15)">Stop</button></td>
+                    <td><span id="cronometro15_1">0:00</span></td>
+                    <td><span id="cronometro15_2">0:00</span></td>
+                    <td><span id="cronometro15_3">0:00</span></td>
+                    <td><span id="cronometro15_4">0:00</span></td>
+                    <td><span id="cronometro15_5">0:00</span></td>
+                    <td><span id="somaTempo15">0:00</span></td>
+                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
+                </tr>
+                <tr>
+                    <td><input type="text" placeholder="Descreva a atividade"></td>
+                    <td><button type="button" onclick="capturePhoto(15)">Foto</button><img id="foto15"></td>
+                    <td><button type="button" onclick="startTimer(15)">Start</button></td>
+                    <td><button type="button" onclick="stopTimer(15)">Stop</button></td>
+                    <td><span id="cronometro15_1">0:00</span></td>
+                    <td><span id="cronometro15_2">0:00</span></td>
+                    <td><span id="cronometro15_3">0:00</span></td>
+                    <td><span id="cronometro15_4">0:00</span></td>
+                    <td><span id="cronometro15_5">0:00</span></td>
+                    <td><span id="somaTempo15">0:00</span></td>
+                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
+                </tr>
+                <tr>
+                    <td><input type="text" placeholder="Descreva a atividade"></td>
+                    <td><button type="button" onclick="capturePhoto(15)">Foto</button><img id="foto15"></td>
+                    <td><button type="button" onclick="startTimer(15)">Start</button></td>
+                    <td><button type="button" onclick="stopTimer(15)">Stop</button></td>
+                    <td><span id="cronometro15_1">0:00</span></td>
+                    <td><span id="cronometro15_2">0:00</span></td>
+                    <td><span id="cronometro15_3">0:00</span></td>
+                    <td><span id="cronometro15_4">0:00</span></td>
+                    <td><span id="cronometro15_5">0:00</span></td>
+                    <td><span id="somaTempo15">0:00</span></td>
+                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
+                </tr>
+            </tbody>
+        </table>
+    </form>
+
+    <script>
+        const timers = Array(15).fill().map(() => [0, 0, 0, 0, 0]);
+        const timerIntervals = Array(15).fill().map(() => [null, null, null, null, null]);
+        let currentTimer = Array(15).fill(0);
+
+        function startTimer(row) {
+            if (currentTimer[row - 1] < 5) {
+                const timerIndex = currentTimer[row - 1];
+                if (!timerIntervals[row - 1][timerIndex]) {
+                    timerIntervals[row - 1][timerIndex] = setInterval(() => {
+                        timers[row - 1][timerIndex]++;
+                        document.getElementById(`cronometro${row}_${timerIndex + 1}`).textContent = formatTime(timers[row - 1][timerIndex]);
+                        updateSum(row);
+                    }, 1000);
+                }
+            }
+        }
+
+        function stopTimer(row) {
+            if (currentTimer[row - 1] < 5 && timerIntervals[row - 1][currentTimer[row - 1]]) {
+                clearInterval(timerIntervals[row - 1][currentTimer[row - 1]]);
+                timerIntervals[row - 1][currentTimer[row - 1]] = null;
+                currentTimer[row - 1]++;
+            }
+        }
+
+        function formatTime(seconds) {
+            const minutes = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+        }
+
+        function updateSum(row) {
+            const total = timers[row - 1].reduce((a, b) => a + b, 0);
+            document.getElementById(`somaTempo${row}`).textContent = formatTime(total);
+        }
+
+        function capturePhoto(row) {
+            const fotoElement = document.getElementById(`foto${row}`);
+            navigator.mediaDevices.getUserMedia({ video: true })
+                .then((stream) => {
+                    fotoElement.style.display = 'block';
+                    const video = document.createElement('video');
+                    video.srcObject = stream;
+                    video.play();
+                    setTimeout(() => {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = video.videoWidth;
+                        canvas.height = video.videoHeight;
+                        canvas.getContext('2d').drawImage(video, 0, 0);
+                        fotoElement.src = canvas.toDataURL('image/png');
+                        stream.getTracks().forEach(track => track.stop());
+                    }, 2000); // Captura após 2 segundos
+                })
+                .catch((err) => {
+                    alert('Erro ao acessar a câmera: ' + err);
+                });
+        }
+    </script>
+</body>
+</html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard de Cronoanálise</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> <!-- Adiciona a biblioteca Chart.js -->
     <style>
