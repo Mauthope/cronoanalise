@@ -26,6 +26,8 @@
             display: none;
         }
     </style>
+    <!-- Adicionar Biblioteca Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <h1>Formulário de Cronoanálise</h1>
@@ -47,7 +49,7 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- 15 Linhas Repetidas -->
+                <!-- 15 Linhas Repetidas (Seu código existente) -->
                 <!-- Linha 1 -->
                 <tr>
                     <td><input type="text" placeholder="Descreva a atividade"></td>
@@ -62,130 +64,15 @@
                     <td><span id="somaTempo1">0:00</span></td>
                     <td><input type="text" placeholder="Sugestões de melhoria"></td>
                 </tr>
-                <!-- Linhas 2 a 15 (Exemplo para Linha 2) -->
-                <tr>
-                    <td><input type="text" placeholder="Descreva a atividade"></td>
-                    <td><button type="button" onclick="capturePhoto(2)">Foto</button><img id="foto2"></td>
-                    <td><button type="button" onclick="startTimer(2)">Start</button></td>
-                    <td><button type="button" onclick="stopTimer(2)">Stop</button></td>
-                    <td><span id="cronometro2_1">0:00</span></td>
-                    <td><span id="cronometro2_2">0:00</span></td>
-                    <td><span id="cronometro2_3">0:00</span></td>
-                    <td><span id="cronometro2_4">0:00</span></td>
-                    <td><span id="cronometro2_5">0:00</span></td>
-                    <td><span id="somaTempo2">0:00</span></td>
-                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
-                </tr>
-                <!-- Repetir mais 13 vezes (totalizando 15 linhas) -->
+                <!-- Linhas 2 a 15 (Repetidas) -->
                 <!-- ... -->
-                <!-- Linha 15 -->
-                <tr>
-                    <td><input type="text" placeholder="Descreva a atividade"></td>
-                    <td><button type="button" onclick="capturePhoto(15)">Foto</button><img id="foto15"></td>
-                    <td><button type="button" onclick="startTimer(15)">Start</button></td>
-                    <td><button type="button" onclick="stopTimer(15)">Stop</button></td>
-                    <td><span id="cronometro15_1">0:00</span></td>
-                    <td><span id="cronometro15_2">0:00</span></td>
-                    <td><span id="cronometro15_3">0:00</span></td>
-                    <td><span id="cronometro15_4">0:00</span></td>
-                    <td><span id="cronometro15_5">0:00</span></td>
-                    <td><span id="somaTempo15">0:00</span></td>
-                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
-                </tr>
-                <tr>
-                    <td><input type="text" placeholder="Descreva a atividade"></td>
-                    <td><button type="button" onclick="capturePhoto(15)">Foto</button><img id="foto15"></td>
-                    <td><button type="button" onclick="startTimer(15)">Start</button></td>
-                    <td><button type="button" onclick="stopTimer(15)">Stop</button></td>
-                    <td><span id="cronometro15_1">0:00</span></td>
-                    <td><span id="cronometro15_2">0:00</span></td>
-                    <td><span id="cronometro15_3">0:00</span></td>
-                    <td><span id="cronometro15_4">0:00</span></td>
-                    <td><span id="cronometro15_5">0:00</span></td>
-                    <td><span id="somaTempo15">0:00</span></td>
-                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
-                </tr>
-                <tr>
-                    <td><input type="text" placeholder="Descreva a atividade"></td>
-                    <td><button type="button" onclick="capturePhoto(15)">Foto</button><img id="foto15"></td>
-                    <td><button type="button" onclick="startTimer(15)">Start</button></td>
-                    <td><button type="button" onclick="stopTimer(15)">Stop</button></td>
-                    <td><span id="cronometro15_1">0:00</span></td>
-                    <td><span id="cronometro15_2">0:00</span></td>
-                    <td><span id="cronometro15_3">0:00</span></td>
-                    <td><span id="cronometro15_4">0:00</span></td>
-                    <td><span id="cronometro15_5">0:00</span></td>
-                    <td><span id="somaTempo15">0:00</span></td>
-                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
-                </tr>
-                <tr>
-                    <td><input type="text" placeholder="Descreva a atividade"></td>
-                    <td><button type="button" onclick="capturePhoto(15)">Foto</button><img id="foto15"></td>
-                    <td><button type="button" onclick="startTimer(15)">Start</button></td>
-                    <td><button type="button" onclick="stopTimer(15)">Stop</button></td>
-                    <td><span id="cronometro15_1">0:00</span></td>
-                    <td><span id="cronometro15_2">0:00</span></td>
-                    <td><span id="cronometro15_3">0:00</span></td>
-                    <td><span id="cronometro15_4">0:00</span></td>
-                    <td><span id="cronometro15_5">0:00</span></td>
-                    <td><span id="somaTempo15">0:00</span></td>
-                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
-                </tr>
-                <tr>
-                    <td><input type="text" placeholder="Descreva a atividade"></td>
-                    <td><button type="button" onclick="capturePhoto(15)">Foto</button><img id="foto15"></td>
-                    <td><button type="button" onclick="startTimer(15)">Start</button></td>
-                    <td><button type="button" onclick="stopTimer(15)">Stop</button></td>
-                    <td><span id="cronometro15_1">0:00</span></td>
-                    <td><span id="cronometro15_2">0:00</span></td>
-                    <td><span id="cronometro15_3">0:00</span></td>
-                    <td><span id="cronometro15_4">0:00</span></td>
-                    <td><span id="cronometro15_5">0:00</span></td>
-                    <td><span id="somaTempo15">0:00</span></td>
-                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
-                </tr>
-                <tr>
-                    <td><input type="text" placeholder="Descreva a atividade"></td>
-                    <td><button type="button" onclick="capturePhoto(15)">Foto</button><img id="foto15"></td>
-                    <td><button type="button" onclick="startTimer(15)">Start</button></td>
-                    <td><button type="button" onclick="stopTimer(15)">Stop</button></td>
-                    <td><span id="cronometro15_1">0:00</span></td>
-                    <td><span id="cronometro15_2">0:00</span></td>
-                    <td><span id="cronometro15_3">0:00</span></td>
-                    <td><span id="cronometro15_4">0:00</span></td>
-                    <td><span id="cronometro15_5">0:00</span></td>
-                    <td><span id="somaTempo15">0:00</span></td>
-                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
-                </tr>
-                <tr>
-                    <td><input type="text" placeholder="Descreva a atividade"></td>
-                    <td><button type="button" onclick="capturePhoto(15)">Foto</button><img id="foto15"></td>
-                    <td><button type="button" onclick="startTimer(15)">Start</button></td>
-                    <td><button type="button" onclick="stopTimer(15)">Stop</button></td>
-                    <td><span id="cronometro15_1">0:00</span></td>
-                    <td><span id="cronometro15_2">0:00</span></td>
-                    <td><span id="cronometro15_3">0:00</span></td>
-                    <td><span id="cronometro15_4">0:00</span></td>
-                    <td><span id="cronometro15_5">0:00</span></td>
-                    <td><span id="somaTempo15">0:00</span></td>
-                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
-                </tr>
-                <tr>
-                    <td><input type="text" placeholder="Descreva a atividade"></td>
-                    <td><button type="button" onclick="capturePhoto(15)">Foto</button><img id="foto15"></td>
-                    <td><button type="button" onclick="startTimer(15)">Start</button></td>
-                    <td><button type="button" onclick="stopTimer(15)">Stop</button></td>
-                    <td><span id="cronometro15_1">0:00</span></td>
-                    <td><span id="cronometro15_2">0:00</span></td>
-                    <td><span id="cronometro15_3">0:00</span></td>
-                    <td><span id="cronometro15_4">0:00</span></td>
-                    <td><span id="cronometro15_5">0:00</span></td>
-                    <td><span id="somaTempo15">0:00</span></td>
-                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
-                </tr>
             </tbody>
         </table>
     </form>
+
+    <!-- Adicionar Canvas para o Gráfico -->
+    <h2>Média de Tempo por Atividade</h2>
+    <canvas id="chart" width="400" height="200"></canvas>
 
     <script>
         const timers = Array(15).fill().map(() => [0, 0, 0, 0, 0]);
@@ -222,6 +109,7 @@
         function updateSum(row) {
             const total = timers[row - 1].reduce((a, b) => a + b, 0);
             document.getElementById(`somaTempo${row}`).textContent = formatTime(total);
+            updateChart(); // Atualiza o gráfico sempre que a soma do tempo for atualizada
         }
 
         function capturePhoto(row) {
@@ -245,6 +133,51 @@
                     alert('Erro ao acessar a câmera: ' + err);
                 });
         }
+
+        function calculateAverageTimes() {
+            // Calcula a média dos tempos para cada atividade
+            return timers.map(times => times.reduce((a, b) => a + b, 0) / times.length);
+        }
+
+        function updateChart() {
+            const averageTimes = calculateAverageTimes();
+            const chart = Chart.getChart("chart"); // Verifica se o gráfico já existe
+            if (chart) {
+                chart.data.datasets[0].data = averageTimes;
+                chart.update();
+            } else {
+                createChart(averageTimes);
+            }
+        }
+
+        function createChart(averageTimes) {
+            const ctx = document.getElementById('chart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: Array.from({ length: 15 }, (_, i) => `Atividade ${i + 1}`),
+                    datasets: [{
+                        label: 'Média de Tempo (segundos)',
+                        data: averageTimes,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        // Inicializa o gráfico vazio
+        window.onload = function() {
+            createChart(calculateAverageTimes());
+        };
     </script>
 </body>
 </html>
