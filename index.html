@@ -26,8 +26,6 @@
             display: none;
         }
     </style>
-    <!-- Adicionando o script do Chart.js -->
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <h1>Formulário de Cronoanálise</h1>
@@ -52,7 +50,7 @@
                 <!-- 15 Linhas Repetidas -->
                 <!-- Linha 1 -->
                 <tr>
-                    <td><input type="text" id="atividade1" placeholder="Descreva a atividade"></td>
+                    <td><input type="text" placeholder="Descreva a atividade"></td>
                     <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
                     <td><button type="button" onclick="startTimer(1)">Start</button></td>
                     <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
@@ -64,180 +62,135 @@
                     <td><span id="somaTempo1">0:00</span></td>
                     <td><input type="text" placeholder="Sugestões de melhoria"></td>
                 </tr>
+                <!-- Linhas 2 a 15 (Exemplo para Linha 2) -->
                 <tr>
-                    <td><input type="text" id="atividade1" placeholder="Descreva a atividade"></td>
-                    <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
-                    <td><button type="button" onclick="startTimer(1)">Start</button></td>
-                    <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
-                    <td><span id="cronometro1_1">0:00</span></td>
-                    <td><span id="cronometro1_2">0:00</span></td>
-                    <td><span id="cronometro1_3">0:00</span></td>
-                    <td><span id="cronometro1_4">0:00</span></td>
-                    <td><span id="cronometro1_5">0:00</span></td>
-                    <td><span id="somaTempo1">0:00</span></td>
+                    <td><input type="text" placeholder="Descreva a atividade"></td>
+                    <td><button type="button" onclick="capturePhoto(2)">Foto</button><img id="foto2"></td>
+                    <td><button type="button" onclick="startTimer(2)">Start</button></td>
+                    <td><button type="button" onclick="stopTimer(2)">Stop</button></td>
+                    <td><span id="cronometro2_1">0:00</span></td>
+                    <td><span id="cronometro2_2">0:00</span></td>
+                    <td><span id="cronometro2_3">0:00</span></td>
+                    <td><span id="cronometro2_4">0:00</span></td>
+                    <td><span id="cronometro2_5">0:00</span></td>
+                    <td><span id="somaTempo2">0:00</span></td>
                     <td><input type="text" placeholder="Sugestões de melhoria"></td>
                 </tr>
-                <tr>
-                    <td><input type="text" id="atividade1" placeholder="Descreva a atividade"></td>
-                    <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
-                    <td><button type="button" onclick="startTimer(1)">Start</button></td>
-                    <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
-                    <td><span id="cronometro1_1">0:00</span></td>
-                    <td><span id="cronometro1_2">0:00</span></td>
-                    <td><span id="cronometro1_3">0:00</span></td>
-                    <td><span id="cronometro1_4">0:00</span></td>
-                    <td><span id="cronometro1_5">0:00</span></td>
-                    <td><span id="somaTempo1">0:00</span></td>
-                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
-                </tr>
-                <tr>
-                    <td><input type="text" id="atividade1" placeholder="Descreva a atividade"></td>
-                    <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
-                    <td><button type="button" onclick="startTimer(1)">Start</button></td>
-                    <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
-                    <td><span id="cronometro1_1">0:00</span></td>
-                    <td><span id="cronometro1_2">0:00</span></td>
-                    <td><span id="cronometro1_3">0:00</span></td>
-                    <td><span id="cronometro1_4">0:00</span></td>
-                    <td><span id="cronometro1_5">0:00</span></td>
-                    <td><span id="somaTempo1">0:00</span></td>
-                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
-                </tr>
-                <tr>
-                    <td><input type="text" id="atividade1" placeholder="Descreva a atividade"></td>
-                    <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
-                    <td><button type="button" onclick="startTimer(1)">Start</button></td>
-                    <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
-                    <td><span id="cronometro1_1">0:00</span></td>
-                    <td><span id="cronometro1_2">0:00</span></td>
-                    <td><span id="cronometro1_3">0:00</span></td>
-                    <td><span id="cronometro1_4">0:00</span></td>
-                    <td><span id="cronometro1_5">0:00</span></td>
-                    <td><span id="somaTempo1">0:00</span></td>
-                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
-                </tr>
-                <tr>
-                    <td><input type="text" id="atividade1" placeholder="Descreva a atividade"></td>
-                    <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
-                    <td><button type="button" onclick="startTimer(1)">Start</button></td>
-                    <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
-                    <td><span id="cronometro1_1">0:00</span></td>
-                    <td><span id="cronometro1_2">0:00</span></td>
-                    <td><span id="cronometro1_3">0:00</span></td>
-                    <td><span id="cronometro1_4">0:00</span></td>
-                    <td><span id="cronometro1_5">0:00</span></td>
-                    <td><span id="somaTempo1">0:00</span></td>
-                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
-                </tr>
-                <tr>
-                    <td><input type="text" id="atividade1" placeholder="Descreva a atividade"></td>
-                    <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
-                    <td><button type="button" onclick="startTimer(1)">Start</button></td>
-                    <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
-                    <td><span id="cronometro1_1">0:00</span></td>
-                    <td><span id="cronometro1_2">0:00</span></td>
-                    <td><span id="cronometro1_3">0:00</span></td>
-                    <td><span id="cronometro1_4">0:00</span></td>
-                    <td><span id="cronometro1_5">0:00</span></td>
-                    <td><span id="somaTempo1">0:00</span></td>
-                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
-                </tr>
-                <tr>
-                    <td><input type="text" id="atividade1" placeholder="Descreva a atividade"></td>
-                    <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
-                    <td><button type="button" onclick="startTimer(1)">Start</button></td>
-                    <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
-                    <td><span id="cronometro1_1">0:00</span></td>
-                    <td><span id="cronometro1_2">0:00</span></td>
-                    <td><span id="cronometro1_3">0:00</span></td>
-                    <td><span id="cronometro1_4">0:00</span></td>
-                    <td><span id="cronometro1_5">0:00</span></td>
-                    <td><span id="somaTempo1">0:00</span></td>
-                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
-                </tr>
-                <tr>
-                    <td><input type="text" id="atividade1" placeholder="Descreva a atividade"></td>
-                    <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
-                    <td><button type="button" onclick="startTimer(1)">Start</button></td>
-                    <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
-                    <td><span id="cronometro1_1">0:00</span></td>
-                    <td><span id="cronometro1_2">0:00</span></td>
-                    <td><span id="cronometro1_3">0:00</span></td>
-                    <td><span id="cronometro1_4">0:00</span></td>
-                    <td><span id="cronometro1_5">0:00</span></td>
-                    <td><span id="somaTempo1">0:00</span></td>
-                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
-                </tr>
-                <tr>
-                    <td><input type="text" id="atividade1" placeholder="Descreva a atividade"></td>
-                    <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
-                    <td><button type="button" onclick="startTimer(1)">Start</button></td>
-                    <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
-                    <td><span id="cronometro1_1">0:00</span></td>
-                    <td><span id="cronometro1_2">0:00</span></td>
-                    <td><span id="cronometro1_3">0:00</span></td>
-                    <td><span id="cronometro1_4">0:00</span></td>
-                    <td><span id="cronometro1_5">0:00</span></td>
-                    <td><span id="somaTempo1">0:00</span></td>
-                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
-                </tr>
-                <tr>
-                    <td><input type="text" id="atividade1" placeholder="Descreva a atividade"></td>
-                    <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
-                    <td><button type="button" onclick="startTimer(1)">Start</button></td>
-                    <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
-                    <td><span id="cronometro1_1">0:00</span></td>
-                    <td><span id="cronometro1_2">0:00</span></td>
-                    <td><span id="cronometro1_3">0:00</span></td>
-                    <td><span id="cronometro1_4">0:00</span></td>
-                    <td><span id="cronometro1_5">0:00</span></td>
-                    <td><span id="somaTempo1">0:00</span></td>
-                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
-                </tr>
-                <tr>
-                    <td><input type="text" id="atividade1" placeholder="Descreva a atividade"></td>
-                    <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
-                    <td><button type="button" onclick="startTimer(1)">Start</button></td>
-                    <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
-                    <td><span id="cronometro1_1">0:00</span></td>
-                    <td><span id="cronometro1_2">0:00</span></td>
-                    <td><span id="cronometro1_3">0:00</span></td>
-                    <td><span id="cronometro1_4">0:00</span></td>
-                    <td><span id="cronometro1_5">0:00</span></td>
-                    <td><span id="somaTempo1">0:00</span></td>
-                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
-                </tr>
-                <tr>
-                    <td><input type="text" id="atividade1" placeholder="Descreva a atividade"></td>
-                    <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
-                    <td><button type="button" onclick="startTimer(1)">Start</button></td>
-                    <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
-                    <td><span id="cronometro1_1">0:00</span></td>
-                    <td><span id="cronometro1_2">0:00</span></td>
-                    <td><span id="cronometro1_3">0:00</span></td>
-                    <td><span id="cronometro1_4">0:00</span></td>
-                    <td><span id="cronometro1_5">0:00</span></td>
-                    <td><span id="somaTempo1">0:00</span></td>
-                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
-                </tr>
-                <!-- Repetir mais 14 vezes -->
+                <!-- Repetir mais 13 vezes (totalizando 15 linhas) -->
                 <!-- ... -->
+                <!-- Linha 15 -->
+                <tr>
+                    <td><input type="text" placeholder="Descreva a atividade"></td>
+                    <td><button type="button" onclick="capturePhoto(15)">Foto</button><img id="foto15"></td>
+                    <td><button type="button" onclick="startTimer(15)">Start</button></td>
+                    <td><button type="button" onclick="stopTimer(15)">Stop</button></td>
+                    <td><span id="cronometro15_1">0:00</span></td>
+                    <td><span id="cronometro15_2">0:00</span></td>
+                    <td><span id="cronometro15_3">0:00</span></td>
+                    <td><span id="cronometro15_4">0:00</span></td>
+                    <td><span id="cronometro15_5">0:00</span></td>
+                    <td><span id="somaTempo15">0:00</span></td>
+                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
+                </tr>
+                <tr>
+                    <td><input type="text" placeholder="Descreva a atividade"></td>
+                    <td><button type="button" onclick="capturePhoto(15)">Foto</button><img id="foto15"></td>
+                    <td><button type="button" onclick="startTimer(15)">Start</button></td>
+                    <td><button type="button" onclick="stopTimer(15)">Stop</button></td>
+                    <td><span id="cronometro15_1">0:00</span></td>
+                    <td><span id="cronometro15_2">0:00</span></td>
+                    <td><span id="cronometro15_3">0:00</span></td>
+                    <td><span id="cronometro15_4">0:00</span></td>
+                    <td><span id="cronometro15_5">0:00</span></td>
+                    <td><span id="somaTempo15">0:00</span></td>
+                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
+                </tr>
+                <tr>
+                    <td><input type="text" placeholder="Descreva a atividade"></td>
+                    <td><button type="button" onclick="capturePhoto(15)">Foto</button><img id="foto15"></td>
+                    <td><button type="button" onclick="startTimer(15)">Start</button></td>
+                    <td><button type="button" onclick="stopTimer(15)">Stop</button></td>
+                    <td><span id="cronometro15_1">0:00</span></td>
+                    <td><span id="cronometro15_2">0:00</span></td>
+                    <td><span id="cronometro15_3">0:00</span></td>
+                    <td><span id="cronometro15_4">0:00</span></td>
+                    <td><span id="cronometro15_5">0:00</span></td>
+                    <td><span id="somaTempo15">0:00</span></td>
+                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
+                </tr>
+                <tr>
+                    <td><input type="text" placeholder="Descreva a atividade"></td>
+                    <td><button type="button" onclick="capturePhoto(15)">Foto</button><img id="foto15"></td>
+                    <td><button type="button" onclick="startTimer(15)">Start</button></td>
+                    <td><button type="button" onclick="stopTimer(15)">Stop</button></td>
+                    <td><span id="cronometro15_1">0:00</span></td>
+                    <td><span id="cronometro15_2">0:00</span></td>
+                    <td><span id="cronometro15_3">0:00</span></td>
+                    <td><span id="cronometro15_4">0:00</span></td>
+                    <td><span id="cronometro15_5">0:00</span></td>
+                    <td><span id="somaTempo15">0:00</span></td>
+                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
+                </tr>
+                <tr>
+                    <td><input type="text" placeholder="Descreva a atividade"></td>
+                    <td><button type="button" onclick="capturePhoto(15)">Foto</button><img id="foto15"></td>
+                    <td><button type="button" onclick="startTimer(15)">Start</button></td>
+                    <td><button type="button" onclick="stopTimer(15)">Stop</button></td>
+                    <td><span id="cronometro15_1">0:00</span></td>
+                    <td><span id="cronometro15_2">0:00</span></td>
+                    <td><span id="cronometro15_3">0:00</span></td>
+                    <td><span id="cronometro15_4">0:00</span></td>
+                    <td><span id="cronometro15_5">0:00</span></td>
+                    <td><span id="somaTempo15">0:00</span></td>
+                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
+                </tr>
+                <tr>
+                    <td><input type="text" placeholder="Descreva a atividade"></td>
+                    <td><button type="button" onclick="capturePhoto(15)">Foto</button><img id="foto15"></td>
+                    <td><button type="button" onclick="startTimer(15)">Start</button></td>
+                    <td><button type="button" onclick="stopTimer(15)">Stop</button></td>
+                    <td><span id="cronometro15_1">0:00</span></td>
+                    <td><span id="cronometro15_2">0:00</span></td>
+                    <td><span id="cronometro15_3">0:00</span></td>
+                    <td><span id="cronometro15_4">0:00</span></td>
+                    <td><span id="cronometro15_5">0:00</span></td>
+                    <td><span id="somaTempo15">0:00</span></td>
+                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
+                </tr>
+                <tr>
+                    <td><input type="text" placeholder="Descreva a atividade"></td>
+                    <td><button type="button" onclick="capturePhoto(15)">Foto</button><img id="foto15"></td>
+                    <td><button type="button" onclick="startTimer(15)">Start</button></td>
+                    <td><button type="button" onclick="stopTimer(15)">Stop</button></td>
+                    <td><span id="cronometro15_1">0:00</span></td>
+                    <td><span id="cronometro15_2">0:00</span></td>
+                    <td><span id="cronometro15_3">0:00</span></td>
+                    <td><span id="cronometro15_4">0:00</span></td>
+                    <td><span id="cronometro15_5">0:00</span></td>
+                    <td><span id="somaTempo15">0:00</span></td>
+                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
+                </tr>
+                <tr>
+                    <td><input type="text" placeholder="Descreva a atividade"></td>
+                    <td><button type="button" onclick="capturePhoto(15)">Foto</button><img id="foto15"></td>
+                    <td><button type="button" onclick="startTimer(15)">Start</button></td>
+                    <td><button type="button" onclick="stopTimer(15)">Stop</button></td>
+                    <td><span id="cronometro15_1">0:00</span></td>
+                    <td><span id="cronometro15_2">0:00</span></td>
+                    <td><span id="cronometro15_3">0:00</span></td>
+                    <td><span id="cronometro15_4">0:00</span></td>
+                    <td><span id="cronometro15_5">0:00</span></td>
+                    <td><span id="somaTempo15">0:00</span></td>
+                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
+                </tr>
             </tbody>
         </table>
     </form>
-
-    <!-- Container para o Gráfico -->
-    <h2>Gráfico de Média de Tempo das Atividades</h2>
-    <canvas id="graficoMediaTempo" width="400" height="200"></canvas>
 
     <script>
         const timers = Array(15).fill().map(() => [0, 0, 0, 0, 0]);
         const timerIntervals = Array(15).fill().map(() => [null, null, null, null, null]);
         let currentTimer = Array(15).fill(0);
-
-        // Dados do gráfico
-        const atividades = Array(15).fill("");
-        const mediasTempo = Array(15).fill(0);
 
         function startTimer(row) {
             if (currentTimer[row - 1] < 5) {
@@ -257,8 +210,6 @@
                 clearInterval(timerIntervals[row - 1][currentTimer[row - 1]]);
                 timerIntervals[row - 1][currentTimer[row - 1]] = null;
                 currentTimer[row - 1]++;
-                // Atualiza o gráfico após o cronômetro parar
-                updateGraph();
             }
         }
 
@@ -294,39 +245,6 @@
                     alert('Erro ao acessar a câmera: ' + err);
                 });
         }
-
-        // Função para calcular a média e atualizar o gráfico
-        function updateGraph() {
-            for (let i = 0; i < 15; i++) {
-                atividades[i] = document.getElementById(`atividade${i + 1}`).value || `Atividade ${i + 1}`;
-                const totalTempo = timers[i].reduce((a, b) => a + b, 0);
-                mediasTempo[i] = totalTempo > 0 ? totalTempo / 5 : 0;
-            }
-            grafico.update();
-        }
-
-        // Criação do Gráfico
-        const ctx = document.getElementById('graficoMediaTempo').getContext('2d');
-        const grafico = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: atividades,
-                datasets: [{
-                    label: 'Média de Tempo (segundos)',
-                    data: mediasTempo,
-                    backgroundColor: 'rgba(54, 162, 235, 0.6)',
-                    borderColor: 'rgba(54, 162, 235, 1)',
-                    borderWidth: 1
-                }]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
-            }
-        });
     </script>
 </body>
 </html>
