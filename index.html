@@ -43,45 +43,85 @@
                 </tr>
             </thead>
             <tbody>
+                <!-- Primeira Linha -->
                 <tr>
-                    <td><input type="text" id="atividade" placeholder="Descreva a atividade"></td>
-                    <td><button type="button" onclick="capturePhoto()">Foto</button><img id="foto" style="width: 100px; display: none;"></td>
-                    <td><button type="button" onclick="startTimer()">Start</button></td>
-                    <td><button type="button" onclick="stopTimer()">Stop</button></td>
-                    <td><span id="cronometro1">0:00</span></td>
-                    <td><span id="cronometro2">0:00</span></td>
-                    <td><span id="cronometro3">0:00</span></td>
-                    <td><span id="cronometro4">0:00</span></td>
-                    <td><span id="cronometro5">0:00</span></td>
-                    <td><span id="somaTempo">0:00</span></td>
-                    <td><input type="text" id="melhorias" placeholder="Sugestões de melhoria"></td>
+                    <td><input type="text" id="atividade1" placeholder="Descreva a atividade"></td>
+                    <td><button type="button" onclick="capturePhoto('foto1')">Foto</button><img id="foto1" style="width: 100px; display: none;"></td>
+                    <td><button type="button" onclick="startTimer(1)">Start</button></td>
+                    <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
+                    <td><span id="cronometro1-1">0:00</span></td>
+                    <td><span id="cronometro2-1">0:00</span></td>
+                    <td><span id="cronometro3-1">0:00</span></td>
+                    <td><span id="cronometro4-1">0:00</span></td>
+                    <td><span id="cronometro5-1">0:00</span></td>
+                    <td><span id="somaTempo1">0:00</span></td>
+                    <td><input type="text" id="melhorias1" placeholder="Sugestões de melhoria"></td>
+                </tr>
+                
+                <!-- Replicar este bloco para mais 14 linhas -->
+                <!-- Linha 2 -->
+                <tr>
+                    <td><input type="text" id="atividade2" placeholder="Descreva a atividade"></td>
+                    <td><button type="button" onclick="capturePhoto('foto2')">Foto</button><img id="foto2" style="width: 100px; display: none;"></td>
+                    <td><button type="button" onclick="startTimer(2)">Start</button></td>
+                    <td><button type="button" onclick="stopTimer(2)">Stop</button></td>
+                    <td><span id="cronometro1-2">0:00</span></td>
+                    <td><span id="cronometro2-2">0:00</span></td>
+                    <td><span id="cronometro3-2">0:00</span></td>
+                    <td><span id="cronometro4-2">0:00</span></td>
+                    <td><span id="cronometro5-2">0:00</span></td>
+                    <td><span id="somaTempo2">0:00</span></td>
+                    <td><input type="text" id="melhorias2" placeholder="Sugestões de melhoria"></td>
+                </tr>
+                
+                <!-- Repita até a linha 15 -->
+                <!-- Linhas adicionais aqui... -->
+
+                <!-- Última Linha (Linha 15) -->
+                <tr>
+                    <td><input type="text" id="atividade15" placeholder="Descreva a atividade"></td>
+                    <td><button type="button" onclick="capturePhoto('foto15')">Foto</button><img id="foto15" style="width: 100px; display: none;"></td>
+                    <td><button type="button" onclick="startTimer(15)">Start</button></td>
+                    <td><button type="button" onclick="stopTimer(15)">Stop</button></td>
+                    <td><span id="cronometro1-15">0:00</span></td>
+                    <td><span id="cronometro2-15">0:00</span></td>
+                    <td><span id="cronometro3-15">0:00</span></td>
+                    <td><span id="cronometro4-15">0:00</span></td>
+                    <td><span id="cronometro5-15">0:00</span></td>
+                    <td><span id="somaTempo15">0:00</span></td>
+                    <td><input type="text" id="melhorias15" placeholder="Sugestões de melhoria"></td>
                 </tr>
             </tbody>
         </table>
     </form>
 
     <script>
-        let timers = [0, 0, 0, 0, 0];
-        let currentTimer = 0;
-        let timerIntervals = [];
+        const timers = Array.from({ length: 15 }, () => [0, 0, 0, 0, 0]);
+        const timerIntervals = Array.from({ length: 15 }, () => [null, null, null, null, null]);
 
-        function startTimer() {
-            if (currentTimer < 5) {
-                if (!timerIntervals[currentTimer]) {
-                    timerIntervals[currentTimer] = setInterval(() => {
-                        timers[currentTimer]++;
-                        document.getElementById(`cronometro${currentTimer + 1}`).textContent = formatTime(timers[currentTimer]);
-                        updateSum();
+        function startTimer(row) {
+            const currentTimers = timers[row - 1];
+            const currentIntervals = timerIntervals[row - 1];
+            for (let i = 0; i < 5; i++) {
+                if (!currentIntervals[i]) {
+                    currentIntervals[i] = setInterval(() => {
+                        currentTimers[i]++;
+                        document.getElementById(`cronometro${i + 1}-${row}`).textContent = formatTime(currentTimers[i]);
+                        updateSum(row);
                     }, 1000);
+                    break;
                 }
             }
         }
 
-        function stopTimer() {
-            if (currentTimer < 5 && timerIntervals[currentTimer]) {
-                clearInterval(timerIntervals[currentTimer]);
-                timerIntervals[currentTimer] = null;
-                currentTimer++;
+        function stopTimer(row) {
+            const currentIntervals = timerIntervals[row - 1];
+            for (let i = 0; i < 5; i++) {
+                if (currentIntervals[i]) {
+                    clearInterval(currentIntervals[i]);
+                    currentIntervals[i] = null;
+                    break;
+                }
             }
         }
 
@@ -91,13 +131,13 @@
             return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
         }
 
-        function updateSum() {
-            const total = timers.reduce((a, b) => a + b, 0);
-            document.getElementById('somaTempo').textContent = formatTime(total);
+        function updateSum(row) {
+            const total = timers[row - 1].reduce((a, b) => a + b, 0);
+            document.getElementById(`somaTempo${row}`).textContent = formatTime(total);
         }
 
-        function capturePhoto() {
-            const fotoElement = document.getElementById('foto');
+        function capturePhoto(fotoId) {
+            const fotoElement = document.getElementById(fotoId);
             navigator.mediaDevices.getUserMedia({ video: true })
                 .then((stream) => {
                     fotoElement.style.display = 'block';
@@ -111,7 +151,7 @@
                         canvas.getContext('2d').drawImage(video, 0, 0);
                         fotoElement.src = canvas.toDataURL('image/png');
                         stream.getTracks().forEach(track => track.stop());
-                    }, 2000); // Captura após 2 segundos
+                    }, 2000);
                 })
                 .catch((err) => {
                     alert('Erro ao acessar a câmera: ' + err);
