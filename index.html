@@ -23,6 +23,7 @@
         }
         img {
             width: 100px;
+            display: none;
         }
     </style>
 </head>
@@ -46,41 +47,67 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Repetir este bloco de código para 15 linhas -->
-                ${Array.from({ length: 15 }, (_, index) => `
+                <!-- 15 Linhas Repetidas -->
+                <!-- Linha 1 -->
                 <tr>
-                    <td><input type="text" id="atividade${index}" placeholder="Descreva a atividade"></td>
-                    <td>
-                        <button type="button" onclick="capturePhoto(${index})">Foto</button>
-                        <img id="foto${index}" style="display: none;">
-                    </td>
-                    <td><button type="button" onclick="startTimer(${index})">Start</button></td>
-                    <td><button type="button" onclick="stopTimer(${index})">Stop</button></td>
-                    <td><span id="cronometro1_${index}">0:00</span></td>
-                    <td><span id="cronometro2_${index}">0:00</span></td>
-                    <td><span id="cronometro3_${index}">0:00</span></td>
-                    <td><span id="cronometro4_${index}">0:00</span></td>
-                    <td><span id="cronometro5_${index}">0:00</span></td>
-                    <td><span id="somaTempo_${index}">0:00</span></td>
-                    <td><input type="text" id="melhorias${index}" placeholder="Sugestões de melhoria"></td>
+                    <td><input type="text" placeholder="Descreva a atividade"></td>
+                    <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
+                    <td><button type="button" onclick="startTimer(1)">Start</button></td>
+                    <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
+                    <td><span id="cronometro1_1">0:00</span></td>
+                    <td><span id="cronometro1_2">0:00</span></td>
+                    <td><span id="cronometro1_3">0:00</span></td>
+                    <td><span id="cronometro1_4">0:00</span></td>
+                    <td><span id="cronometro1_5">0:00</span></td>
+                    <td><span id="somaTempo1">0:00</span></td>
+                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
                 </tr>
-                `).join('')}
+                <!-- Linhas 2 a 15 (Exemplo para Linha 2) -->
+                <tr>
+                    <td><input type="text" placeholder="Descreva a atividade"></td>
+                    <td><button type="button" onclick="capturePhoto(2)">Foto</button><img id="foto2"></td>
+                    <td><button type="button" onclick="startTimer(2)">Start</button></td>
+                    <td><button type="button" onclick="stopTimer(2)">Stop</button></td>
+                    <td><span id="cronometro2_1">0:00</span></td>
+                    <td><span id="cronometro2_2">0:00</span></td>
+                    <td><span id="cronometro2_3">0:00</span></td>
+                    <td><span id="cronometro2_4">0:00</span></td>
+                    <td><span id="cronometro2_5">0:00</span></td>
+                    <td><span id="somaTempo2">0:00</span></td>
+                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
+                </tr>
+                <!-- Repetir mais 13 vezes (totalizando 15 linhas) -->
+                <!-- ... -->
+                <!-- Linha 15 -->
+                <tr>
+                    <td><input type="text" placeholder="Descreva a atividade"></td>
+                    <td><button type="button" onclick="capturePhoto(15)">Foto</button><img id="foto15"></td>
+                    <td><button type="button" onclick="startTimer(15)">Start</button></td>
+                    <td><button type="button" onclick="stopTimer(15)">Stop</button></td>
+                    <td><span id="cronometro15_1">0:00</span></td>
+                    <td><span id="cronometro15_2">0:00</span></td>
+                    <td><span id="cronometro15_3">0:00</span></td>
+                    <td><span id="cronometro15_4">0:00</span></td>
+                    <td><span id="cronometro15_5">0:00</span></td>
+                    <td><span id="somaTempo15">0:00</span></td>
+                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
+                </tr>
             </tbody>
         </table>
     </form>
 
     <script>
-        let timers = Array.from({ length: 15 }, () => [0, 0, 0, 0, 0]);
-        let currentTimers = Array(15).fill(0);
-        let timerIntervals = Array.from({ length: 15 }, () => [null, null, null, null, null]);
+        const timers = Array(15).fill().map(() => [0, 0, 0, 0, 0]);
+        const timerIntervals = Array(15).fill().map(() => [null, null, null, null, null]);
+        let currentTimer = Array(15).fill(0);
 
         function startTimer(row) {
-            let currentTimer = currentTimers[row];
-            if (currentTimer < 5) {
-                if (!timerIntervals[row][currentTimer]) {
-                    timerIntervals[row][currentTimer] = setInterval(() => {
-                        timers[row][currentTimer]++;
-                        document.getElementById(`cronometro${currentTimer + 1}_${row}`).textContent = formatTime(timers[row][currentTimer]);
+            if (currentTimer[row - 1] < 5) {
+                const timerIndex = currentTimer[row - 1];
+                if (!timerIntervals[row - 1][timerIndex]) {
+                    timerIntervals[row - 1][timerIndex] = setInterval(() => {
+                        timers[row - 1][timerIndex]++;
+                        document.getElementById(`cronometro${row}_${timerIndex + 1}`).textContent = formatTime(timers[row - 1][timerIndex]);
                         updateSum(row);
                     }, 1000);
                 }
@@ -88,11 +115,10 @@
         }
 
         function stopTimer(row) {
-            let currentTimer = currentTimers[row];
-            if (currentTimer < 5 && timerIntervals[row][currentTimer]) {
-                clearInterval(timerIntervals[row][currentTimer]);
-                timerIntervals[row][currentTimer] = null;
-                currentTimers[row]++;
+            if (currentTimer[row - 1] < 5 && timerIntervals[row - 1][currentTimer[row - 1]]) {
+                clearInterval(timerIntervals[row - 1][currentTimer[row - 1]]);
+                timerIntervals[row - 1][currentTimer[row - 1]] = null;
+                currentTimer[row - 1]++;
             }
         }
 
@@ -103,8 +129,8 @@
         }
 
         function updateSum(row) {
-            const total = timers[row].reduce((a, b) => a + b, 0);
-            document.getElementById(`somaTempo_${row}`).textContent = formatTime(total);
+            const total = timers[row - 1].reduce((a, b) => a + b, 0);
+            document.getElementById(`somaTempo${row}`).textContent = formatTime(total);
         }
 
         function capturePhoto(row) {
