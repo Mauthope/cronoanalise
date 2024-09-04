@@ -49,10 +49,10 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- 15 Linhas Repetidas (Seu código existente) -->
-                <!-- Linha 1 -->
+                <!-- 15 Linhas Repetidas -->
+                <!-- Exemplo de Linha -->
                 <tr>
-                    <td><input type="text" placeholder="Descreva a atividade"></td>
+                    <td><input type="text" id="atividade1" placeholder="Descreva a atividade"></td>
                     <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
                     <td><button type="button" onclick="startTimer(1)">Start</button></td>
                     <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
@@ -65,7 +65,7 @@
                     <td><input type="text" placeholder="Sugestões de melhoria"></td>
                 </tr>
                 <tr>
-                    <td><input type="text" placeholder="Descreva a atividade"></td>
+                    <td><input type="text" id="atividade1" placeholder="Descreva a atividade"></td>
                     <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
                     <td><button type="button" onclick="startTimer(1)">Start</button></td>
                     <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
@@ -78,7 +78,7 @@
                     <td><input type="text" placeholder="Sugestões de melhoria"></td>
                 </tr>
                 <tr>
-                    <td><input type="text" placeholder="Descreva a atividade"></td>
+                    <td><input type="text" id="atividade1" placeholder="Descreva a atividade"></td>
                     <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
                     <td><button type="button" onclick="startTimer(1)">Start</button></td>
                     <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
@@ -90,34 +90,7 @@
                     <td><span id="somaTempo1">0:00</span></td>
                     <td><input type="text" placeholder="Sugestões de melhoria"></td>
                 </tr>
-                <tr>
-                    <td><input type="text" placeholder="Descreva a atividade"></td>
-                    <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
-                    <td><button type="button" onclick="startTimer(1)">Start</button></td>
-                    <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
-                    <td><span id="cronometro1_1">0:00</span></td>
-                    <td><span id="cronometro1_2">0:00</span></td>
-                    <td><span id="cronometro1_3">0:00</span></td>
-                    <td><span id="cronometro1_4">0:00</span></td>
-                    <td><span id="cronometro1_5">0:00</span></td>
-                    <td><span id="somaTempo1">0:00</span></td>
-                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
-                </tr>
-                <tr>
-                    <td><input type="text" placeholder="Descreva a atividade"></td>
-                    <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
-                    <td><button type="button" onclick="startTimer(1)">Start</button></td>
-                    <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
-                    <td><span id="cronometro1_1">0:00</span></td>
-                    <td><span id="cronometro1_2">0:00</span></td>
-                    <td><span id="cronometro1_3">0:00</span></td>
-                    <td><span id="cronometro1_4">0:00</span></td>
-                    <td><span id="cronometro1_5">0:00</span></td>
-                    <td><span id="somaTempo1">0:00</span></td>
-                    <td><input type="text" placeholder="Sugestões de melhoria"></td>
-                </tr>
-                <!-- Linhas 2 a 15 (Repetidas) -->
-                <!-- ... -->
+                <!-- Repita até a linha 15 -->
             </tbody>
         </table>
     </form>
@@ -127,6 +100,7 @@
     <canvas id="chart" width="400" height="200"></canvas>
 
     <script>
+        // Funções de Cronômetro (sem alterações)
         const timers = Array(15).fill().map(() => [0, 0, 0, 0, 0]);
         const timerIntervals = Array(15).fill().map(() => [null, null, null, null, null]);
         let currentTimer = Array(15).fill(0);
@@ -161,7 +135,6 @@
         function updateSum(row) {
             const total = timers[row - 1].reduce((a, b) => a + b, 0);
             document.getElementById(`somaTempo${row}`).textContent = formatTime(total);
-            updateChart(); // Atualiza o gráfico sempre que a soma do tempo for atualizada
         }
 
         function capturePhoto(row) {
@@ -186,49 +159,56 @@
                 });
         }
 
+        // Funções do Gráfico
         function calculateAverageTimes() {
-            // Calcula a média dos tempos para cada atividade
-            return timers.map(times => times.reduce((a, b) => a + b, 0) / times.length);
+            const averageTimes = [];
+            for (let i = 1; i <= 15; i++) {
+                const sumElement = document.getElementById(`somaTempo${i}`).textContent.split(':');
+                const sumSeconds = parseInt(sumElement[0]) * 60 + parseInt(sumElement[1]);
+                const avgTime = sumSeconds / 5; // Média de 5 cronômetros
+                const activityName = document.getElementById(`atividade${i}`).value || `Atividade ${i}`;
+                averageTimes.push({ activity: activityName, average: avgTime });
+            }
+            return averageTimes;
         }
 
         function updateChart() {
             const averageTimes = calculateAverageTimes();
-            const chart = Chart.getChart("chart"); // Verifica se o gráfico já existe
-            if (chart) {
-                chart.data.datasets[0].data = averageTimes;
-                chart.update();
-            } else {
-                createChart(averageTimes);
-            }
-        }
+            const chartLabels = averageTimes.map(item => item.activity);
+            const chartData = averageTimes.map(item => item.average);
 
-        function createChart(averageTimes) {
             const ctx = document.getElementById('chart').getContext('2d');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: Array.from({ length: 15 }, (_, i) => `Atividade ${i + 1}`),
-                    datasets: [{
-                        label: 'Média de Tempo (segundos)',
-                        data: averageTimes,
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
+            if (window.myChart) {
+                window.myChart.data.labels = chartLabels;
+                window.myChart.data.datasets[0].data = chartData;
+                window.myChart.update();
+            } else {
+                window.myChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: chartLabels,
+                        datasets: [{
+                            label: 'Média de Tempo (segundos)',
+                            data: chartData,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true
+                            }
                         }
                     }
-                }
-            });
+                });
+            }
         }
 
         // Inicializa o gráfico vazio
         window.onload = function() {
-            createChart(calculateAverageTimes());
+            updateChart();
         };
     </script>
 </body>
