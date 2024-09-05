@@ -4,76 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário de Cronoanálise</title>
-   <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f5f5f5;
-        margin: 0;
-        padding: 20px;
-    }
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
 
-    h1 {
-        text-align: center;
-        color: #333;
-    }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 20px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        background-color: white;
-    }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
 
-    th, td {
-        border: 1px solid #ddd;
-        padding: 10px;
-        text-align: center;
-    }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
 
-    th {
-        background-color: #4CAF50;
-        color: white;
-    }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
 
-    button {
-        padding: 8px 16px;
-        margin: 4px;
-        border: none;
-        border-radius: 4px;
-        font-size: 14px;
-        cursor: pointer;
-        color: black;
-    }
+        button {
+            padding: 8px 16px;
+            margin: 4px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            color: black;
+        }
 
-    button[onclick*="startTimer"] {
-        background-color: #4CAF50; /* Verde para o botão Start */
-    }
+        button[onclick*="startTimer"] {
+            background-color: #4CAF50; /* Verde para o botão Start */
+        }
 
-    button[onclick*="stopTimer"] {
-        background-color: #f44336; /* Vermelho para o botão Stop */
-    }
+        button[onclick*="stopTimer"] {
+            background-color: #f44336; /* Vermelho para o botão Stop */
+        }
 
-    button:hover {
-        opacity: 0.8;
-    }
+        button:hover {
+            opacity: 0.8;
+        }
 
-    img {
-        width: 100px;
-        display: none;
-    }
+        img {
+            width: 100px;
+            display: none;
+        }
 
-    #chartContainer {
-        width: 80%;
-        margin: 20px auto;
-        padding: 20px;
-        background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    }
-</style>
-
-    <!-- Adicionando a biblioteca Chart.js -->
+        #chartContainer {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+    </style>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
@@ -97,14 +95,17 @@
             </thead>
             <tbody>
                 <!-- Linhas do formulário (exemplo com 3 linhas para simplificar) -->
-                
-                <tr>
-                    <td><input type="text" id="atividade1" placeholder="Descreva a atividade" style="width: 300px; height: 50px;"></td>
-                    
+                </td>
+                    <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
                     <td><button type="button" onclick="startTimer(1)">Start</button></td>
                     <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
                     <td><span id="cronometro1_1">0:00</span></td>
-                    
+                    <td><span id="cronometro1_2">0:00</span></td>
+                    <td><span id="cronometro1_3">0:00</span></td>
+                    <td><span id="cronometro1_4">0:00</span></td>
+                    <td><span id="cronometro1_5">0:00</span></td>
+                    <td><span id="somaTempo1">0:00</span></td>
+                    <td><textarea placeholder="Sugestões de melhoria" style="width: 300px; height: 50px; resize: none;" wrap="soft"></textarea></td>
                 </tr>
                 <tr>
                     <td><input type="text" id="atividade2" placeholder="Descreva a atividade" style="width: 300px; height: 50px;"></td>
@@ -222,107 +223,57 @@
                     <td><span id="cronometro10_5">0:00</span></td>
                     <td><span id="somaTempo10">0:00</span></td>
                     <td><textarea placeholder="Sugestões de melhoria" style="width: 300px; height: 50px; resize: none;" wrap="soft"></textarea></td>
-                </tr>
-                <!-- Repetir mais linhas conforme necessário -->
+                <!-- Coloque suas linhas aqui como já especificado anteriormente -->
             </tbody>
         </table>
     </form>
 
-    <!-- Botão para gerar o gráfico -->
-    <button onclick="generateDashboard()">Gerar Dashboard</button>
-
-    <!-- Container para o gráfico -->
     <div id="chartContainer">
-        <canvas id="chart"></canvas>
+        <canvas id="myChart"></canvas>
     </div>
 
     <script>
-        const timers = Array(15).fill().map(() => [0, 0, 0, 0, 0]);
-        const timerIntervals = Array(15).fill().map(() => [null, null, null, null, null]);
-        let currentTimer = Array(15).fill(0);
+        document.addEventListener('DOMContentLoaded', function() {
+            const ctx = document.getElementById('myChart').getContext('2d');
 
-        function startTimer(row) {
-            if (currentTimer[row - 1] < 5) {
-                const timerIndex = currentTimer[row - 1];
-                if (!timerIntervals[row - 1][timerIndex]) {
-                    timerIntervals[row - 1][timerIndex] = setInterval(() => {
-                        timers[row - 1][timerIndex]++;
-                        document.getElementById(`cronometro${row}_${timerIndex + 1}`).textContent = formatTime(timers[row - 1][timerIndex]);
-                        updateSum(row);
-                    }, 1000);
-                }
-            }
-        }
+            // Dados do gráfico
+            const chartData = {
+                labels: ['Cronômetro 1', 'Cronômetro 2', 'Cronômetro 3', 'Cronômetro 4', 'Cronômetro 5'],
+                datasets: [{
+                    label: 'Tempos de Cronômetro',
+                    data: [0, 0, 0, 0, 0], // Ajuste de acordo com seus dados reais
+                    backgroundColor: ['#4CAF50', '#FF6384', '#36A2EB', '#FFCE56', '#AA65CC'],
+                }]
+            };
 
-        function stopTimer(row) {
-            if (currentTimer[row - 1] < 5 && timerIntervals[row - 1][currentTimer[row - 1]]) {
-                clearInterval(timerIntervals[row - 1][currentTimer[row - 1]]);
-                timerIntervals[row - 1][currentTimer[row - 1]] = null;
-                currentTimer[row - 1]++;
-            }
-        }
+            // Ignorar a primeira linha ao criar o gráfico
+            function ignoreFirstLineData() {
+                // Supondo que você colete dados de um array, ajuste conforme necessário
+                const rows = [...document.querySelectorAll('tbody tr')];
+                rows.shift(); // Ignora a primeira linha
 
-        function formatTime(seconds) {
-            const minutes = Math.floor(seconds / 60);
-            const secs = seconds % 60;
-            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
-        }
+                const newData = rows.map(row => {
+                    const cron1 = parseFloat(row.querySelector('#cronometro1_1').textContent.split(':')[1]) || 0;
+                    const cron2 = parseFloat(row.querySelector('#cronometro2_1').textContent.split(':')[1]) || 0;
+                    const cron3 = parseFloat(row.querySelector('#cronometro3_1').textContent.split(':')[1]) || 0;
+                    const cron4 = parseFloat(row.querySelector('#cronometro4_1').textContent.split(':')[1]) || 0;
+                    const cron5 = parseFloat(row.querySelector('#cronometro5_1').textContent.split(':')[1]) || 0;
 
-        function updateSum(row) {
-            const total = timers[row - 1].reduce((a, b) => a + b, 0);
-            document.getElementById(`somaTempo${row}`).textContent = formatTime(total);
-        }
-
-        function capturePhoto(row) {
-            const fotoElement = document.getElementById(`foto${row}`);
-            navigator.mediaDevices.getUserMedia({ video: true })
-                .then((stream) => {
-                    fotoElement.style.display = 'block';
-                    const video = document.createElement('video');
-                    video.srcObject = stream;
-                    video.play();
-                    setTimeout(() => {
-                        const canvas = document.createElement('canvas');
-                        canvas.width = video.videoWidth;
-                        canvas.height = video.videoHeight;
-                        canvas.getContext('2d').drawImage(video, 0, 0);
-                        fotoElement.src = canvas.toDataURL('image/png');
-                        stream.getTracks().forEach(track => track.stop());
-                    }, 2000);
-                })
-                .catch((err) => {
-                    alert('Erro ao acessar a câmera: ' + err);
+                    return [cron1, cron2, cron3, cron4, cron5];
                 });
-        }
 
-        function generateDashboard() {
-            const activities = [];
-            const times = [];
+                // Atualiza o gráfico com novos dados ignorando a primeira linha
+                chartData.datasets[0].data = newData.reduce((acc, val) => acc.map((sum, i) => sum + val[i]), [0, 0, 0, 0, 0]);
 
-            for (let i = 1; i <= 15; i++) {
-                const activity = document.getElementById(`atividade${i}`);
-                if (activity && activity.value) {
-                    const totalSeconds = timers[i - 1].reduce((a, b) => a + b, 0);
-                    const totalTime = totalSeconds / 60; // Convertendo para minutos
-                    activities.push(activity.value);
-                    times.push(totalTime);
-                }
+                return chartData;
             }
 
-            const ctx = document.getElementById('chart').getContext('2d');
-            new Chart(ctx, {
+            // Criar gráfico
+            const myChart = new Chart(ctx, {
                 type: 'bar',
-                data: {
-                    labels: activities,
-                    datasets: [{
-                        label: 'Tempo Médio das Atividades (minutos)',
-                        data: times,
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    }]
-                },
+                data: ignoreFirstLineData(),
                 options: {
+                    responsive: true,
                     scales: {
                         y: {
                             beginAtZero: true
@@ -330,7 +281,7 @@
                     }
                 }
             });
-        }
+        });
     </script>
 </body>
 </html>
