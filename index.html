@@ -4,74 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário de Cronoanálise</title>
-   <style>
-    body {
-        font-family: Arial, sans-serif;
-        background-color: #f5f5f5;
-        margin: 0;
-        padding: 20px;
-    }
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            padding: 20px;
+        }
 
-    h1 {
-        text-align: center;
-        color: #333;
-    }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
 
-    table {
-        width: 100%;
-        border-collapse: collapse;
-        margin-bottom: 20px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        background-color: white;
-    }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            background-color: white;
+        }
 
-    th, td {
-        border: 1px solid #ddd;
-        padding: 10px;
-        text-align: center;
-    }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+        }
 
-    th {
-        background-color: #4CAF50;
-        color: white;
-    }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
 
-    button {
-        padding: 8px 16px;
-        margin: 4px;
-        border: none;
-        border-radius: 4px;
-        font-size: 14px;
-        cursor: pointer;
-        color: black;
-    }
+        button {
+            padding: 8px 16px;
+            margin: 4px;
+            border: none;
+            border-radius: 4px;
+            font-size: 14px;
+            cursor: pointer;
+            color: black;
+        }
 
-    button[onclick*="startTimer"] {
-        background-color: #4CAF50; /* Verde para o botão Start */
-    }
+        button[onclick*="startTimer"] {
+            background-color: #4CAF50; /* Verde para o botão Start */
+        }
 
-    button[onclick*="stopTimer"] {
-        background-color: #f44336; /* Vermelho para o botão Stop */
-    }
+        button[onclick*="stopTimer"] {
+            background-color: #f44336; /* Vermelho para o botão Stop */
+        }
 
-    button:hover {
-        opacity: 0.8;
-    }
+        button:hover {
+            opacity: 0.8;
+        }
 
-    img {
-        width: 100px;
-        display: none;
-    }
+        img {
+            width: 100px;
+            display: none;
+        }
 
-    #chartContainer {
-        width: 80%;
-        margin: 20px auto;
-        padding: 20px;
-        background-color: white;
-        border-radius: 8px;
-        box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
-    }
-</style>
+        #chartContainer {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+    </style>
 
     <!-- Adicionando a biblioteca Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -91,59 +91,59 @@
                     <th>Cronômetro 3</th>
                     <th>Cronômetro 4</th>
                     <th>Cronômetro 5</th>
+                    <th>Cronômetro Extra</th> <!-- Novo cabeçalho para o cronômetro extra -->
                     <th>Soma do Tempo</th>
                     <th>Melhorias</th>
                 </tr>
-                <!-- Nova linha de cabeçalho -->
-                <tr>
-                    <th colspan="2"></th>
-                    <th><button type="button" onclick="startNewTimer()">Start</button></th>
-                    <th><button type="button" onclick="stopNewTimer()">Stop</button></th>
-                    <th colspan="7" id="novoCronometro">0:00</th>
-                </tr>
             </thead>
             <tbody>
-                <!-- Linhas do formulário continuam aqui -->
                 <tr>
-                    <td><input type="text" id="atividade1" placeholder="Descreva a atividade" style="width: 300px; height: 50px;"></td>
-                    <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
-                    <td><button type="button" onclick="startTimer(1)">Start</button></td>
-                    <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
-                    <td><span id="cronometro1_1">0:00</span></td>
-                    <td><span id="cronometro1_2">0:00</span></td>
-                    <td><span id="cronometro1_3">0:00</span></td>
-                    <td><span id="cronometro1_4">0:00</span></td>
-                    <td><span id="cronometro1_5">0:00</span></td>
-                    <td><span id="somaTempo1">0:00</span></td>
+                    <td><input type="text" id="atividadeExtra" placeholder="Nova atividade" style="width: 300px; height: 50px;"></td>
+                    <td><button type="button" onclick="capturePhoto('Extra')">Foto</button><img id="fotoExtra"></td>
+                    <td><button type="button" onclick="startTimer('Extra')">Start</button></td>
+                    <td><button type="button" onclick="stopTimer('Extra')">Stop</button></td>
+                    <td><span id="cronometroExtra">0:00</span></td>
+                    <td colspan="7"></td> <!-- Coluna preenchida para alinhar -->
+                    <td><span id="somaTempoExtra">0:00</span></td>
                     <td><textarea placeholder="Sugestões de melhoria" style="width: 300px; height: 50px; resize: none;" wrap="soft"></textarea></td>
                 </tr>
-                <!-- Continuação das linhas do formulário -->
+                <!-- Repita as outras linhas conforme necessário -->
             </tbody>
         </table>
     </form>
+    <div id="chartContainer">
+        <!-- Conteúdo adicional, como gráficos, pode ser adicionado aqui -->
+    </div>
 
+    <!-- Funções JavaScript para controle dos cronômetros -->
     <script>
-        function startNewTimer() {
-            // Implementar lógica para iniciar o novo cronômetro
-            document.getElementById('novoCronometro').innerText = "Cronômetro Iniciado!";
-        }
+        let timers = {};
+        let intervals = {};
 
-        function stopNewTimer() {
-            // Implementar lógica para parar o novo cronômetro
-            document.getElementById('novoCronometro').innerText = "Cronômetro Parado!";
-        }
-        
-        // Suas funções de cronômetro existentes...
         function startTimer(id) {
-            // Lógica para iniciar o cronômetro
+            if (!timers[id]) timers[id] = 0;
+            if (!intervals[id]) {
+                intervals[id] = setInterval(function() {
+                    timers[id]++;
+                    document.getElementById('cronometro' + id).textContent = formatTime(timers[id]);
+                }, 1000);
+            }
         }
 
         function stopTimer(id) {
-            // Lógica para parar o cronômetro
+            clearInterval(intervals[id]);
+            intervals[id] = null;
+        }
+
+        function formatTime(seconds) {
+            const mins = Math.floor(seconds / 60);
+            const secs = seconds % 60;
+            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
         }
 
         function capturePhoto(id) {
-            // Lógica para capturar foto
+            // Função de exemplo para capturar foto
+            document.getElementById('foto' + id).style.display = 'block';
         }
     </script>
 </body>
