@@ -1,1 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulário de Cronoanálise</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        button {
+            padding: 5px 10px;
+            margin: 2px;
+        }
+        img {
+            width: 100px;
+            display: none;
+        }
+        #chartContainer {
+            width: 80%;
+            margin: 20px auto;
+        }
+        .start-button {
+            background-color: green;
+            color: white;
+        }
+        .stop-button {
+            background-color: red;
+            color: white;
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>Formulário de Cronoanálise</h1>
+    <form id="cronoanalise-form">
+        <table>
+            <thead>
+                <tr>
+                    <th>Atividade</th>
+                    <th>Foto</th>
+                    <th>Start</th>
+                    <th>Stop</th>
+                    <th>Cronômetro 1</th>
+                    <th>Cronômetro 2</th>
+                    <th>Cronômetro 3</th>
+                    <th>Cronômetro 4</th>
+                    <th>Cronômetro 5</th>
+                    <th>Soma do Tempo</th>
+                    <th>Melhorias</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Linhas do formulário -->
+                <tr>
+                    <td><input type="text" id="atividade1" placeholder="Descreva a atividade" style="width: 300px; height: 50px;"></td>
+                    <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
+                    <td><button type="button" class="start-button" onclick="startTimer(1)">Start</button></td>
+                    <td><button type="button" class="stop-button" onclick="stopTimer(1)">Stop</button></td>
+                    <td><span id="cronometro1_1">0:00</span></td>
+                    <td><span id="cronometro1_2">0:00</span></td>
+                    <td><span id="cronometro1_3">0:00</span></td>
+                    <td><span id="cronometro1_4">0:00</span></td>
+                    <td><span id="cronometro1_5">0:00</span></td>
+                    <td><span id="somaTempo1">0:00</span></td>
+                    <td><textarea placeholder="Sugestões de melhoria" style="width: 300px; height: 50px; resize: none;" wrap="soft"></textarea></td>
+                </tr>
+                <!-- Repetir mais linhas conforme necessário -->
+            </tbody>
+        </table>
+    </form>
+
+    <!-- Botão para gerar o gráfico -->
+    <button onclick="generateDashboard()">Gerar Dashboard</button>
+
+    <!-- Container para o gráfico -->
+    <div id="chartContainer">
+        <canvas id="chart"></canvas>
+    </div>
+
+    <script>
+        const timers = Array(15).fill().map(() => [0, 0, 0, 0, 0]);
+        const timerIntervals = Array(15).fill().map(() => [null, null, null, null, null]);
+        let currentTimer = Array(15).fill(0);
+
+        function startTimer(row) {
+            if (currentTimer[row - 1] < 5) {
+                const timerIndex = currentTimer[row - 1];
+                if (!timerIntervals[row - 1][timerIndex]) {
+                    timerIntervals[row - 1][timerIndex] = setInterval(() => {
+                        timers[row - 1][timerIndex]++;
+                        document.getElementById(`cronometro${row}_${timerIndex + 1}`).innerText = formatTime(timers[row - 1][timerIndex]);
+                    }, 1000);
+                }
+            }
+        }
+
+        function stopTimer(row) {
+            const timerIndex = currentTimer[row - 1];
+            if (timerIntervals[row - 1][timerIndex]) {
+                clearInterval(timerIntervals[row - 1][timerIndex]);
+                timerIntervals[row - 1][timerIndex] = null;
+                currentTimer[row - 1]++;
+                updateSumTime(row);
+            }
+        }
+
+        function formatTime(seconds) {
+            const min = Math.floor(seconds / 60);
+            const sec = seconds % 60;
+            return `${min}:${sec < 10 ? '0' : ''}${sec}`;
+        }
+
+        function updateSumTime(row) {
+            let sum = timers[row - 1].reduce((a, b) => a + b, 0);
+            document.getElementById(`somaTempo${row}`).innerText = formatTime(sum);
+        }
+
+        function generateDashboard() {
+            const labels = [];
+            const data = [];
+
+            // Captura os nomes das atividades e os tempos totais
+            for (let i = 1; i <= timers.length; i++) {
+                const atividade = document.getElementById(`atividade${i}`);
+                if (atividade && atividade.value.trim() !== "") {
+                    labels.push(atividade.value);
+                    const totalSeconds = timers[i - 1].reduce((a, b) => a + b, 0);
+                    data.push(totalSeconds / 60); // Convertendo para minutos
+                }
+            }
+
+            const ctx = document.getElementById('chart').getContext('2d');
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Tempo Total (minutos)',
+                        data: data,
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+
+        function capturePhoto(row) {
+            const img = document.getElementById(`foto${row}`);
+            img.src = `path/to/photo${row}.jpg`; // Substitua pelo caminho real da foto
+            img.style.display = 'block';
+        }
+    </script>
+</body>
+</html>
 
