@@ -71,8 +71,16 @@
             border-radius: 8px;
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
-    </style>
 
+        .time-display {
+            padding: 8px 16px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background-color: #f5f5f5;
+            color: #333;
+            display: inline-block;
+        }
+    </style>
     <!-- Adicionando a biblioteca Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
@@ -96,22 +104,21 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Adicione as linhas conforme a sua necessidade -->
-                <!-- Exemplo para a linha 1 -->
+                <!-- Repetir o bloco a seguir para cada atividade -->
                 <tr>
                     <td><input type="text" id="atividade1" placeholder="Descreva a atividade" style="width: 300px; height: 50px;"></td>
                     <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
                     <td><button type="button" onclick="startTimer(1)">Start</button></td>
                     <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
-                    <td><span id="cronometro1_1">0:00</span></td>
-                    <td><span id="cronometro1_2">0:00</span></td>
-                    <td><span id="cronometro1_3">0:00</span></td>
-                    <td><span id="cronometro1_4">0:00</span></td>
-                    <td><span id="cronometro1_5">0:00</span></td>
-                    <td><span id="somaTempo1">0:00</span></td>
+                    <td><span id="cronometro1_1" class="time-display">0:00</span></td>
+                    <td><span id="cronometro1_2" class="time-display">0:00</span></td>
+                    <td><span id="cronometro1_3" class="time-display">0:00</span></td>
+                    <td><span id="cronometro1_4" class="time-display">0:00</span></td>
+                    <td><span id="cronometro1_5" class="time-display">0:00</span></td>
+                    <td><span id="somaTempo1" class="time-display">0:00</span></td>
                     <td><textarea placeholder="Sugestões de melhoria" style="width: 300px; height: 50px; resize: none;" wrap="soft"></textarea></td>
                 </tr>
-                <!-- Repita para outras linhas (atividade2, atividade3, etc.) -->
+                <!-- Repita o bloco para as outras atividades -->
             </tbody>
         </table>
     </form>
@@ -125,27 +132,33 @@
     </div>
 
     <script>
-        const timers = Array(15).fill().map(() => [0, 0, 0, 0, 0]);
-        const timerIntervals = Array(15).fill().map(() => [null, null, null, null, null]);
-        let startTimes = Array(15).fill(null); // Array para armazenar o horário de início
+        const timers = Array(10).fill().map(() => [0, 0, 0, 0, 0]);
+        const timerIntervals = Array(10).fill().map(() => [null, null, null, null, null]);
+        let startTime = Array(10).fill(0);
+        let endTime = Array(10).fill(0);
 
         function startTimer(row) {
-            const timerIndex = timers[row - 1].findIndex(t => t === 0); // Encontra o próximo timer disponível
-            if (timerIndex !== -1 && !timerIntervals[row - 1][timerIndex]) {
-                startTimes[row - 1] = new Date(); // Registra o horário de início
-                timerIntervals[row - 1][timerIndex] = setInterval(() => {
-                    timers[row - 1][timerIndex]++;
-                    document.getElementById(`cronometro${row}_${timerIndex + 1}`).textContent = formatTime(timers[row - 1][timerIndex]);
-                    updateSum(row);
-                }, 1000);
+            if (!startTime[row - 1]) {
+                startTime[row - 1] = Date.now();
+            }
+            if (currentTimer[row - 1] < 5) {
+                const timerIndex = currentTimer[row - 1];
+                if (!timerIntervals[row - 1][timerIndex]) {
+                    timerIntervals[row - 1][timerIndex] = setInterval(() => {
+                        timers[row - 1][timerIndex]++;
+                        document.getElementById(`cronometro${row}_${timerIndex + 1}`).textContent = formatTime(timers[row - 1][timerIndex]);
+                        updateSum(row);
+                    }, 1000);
+                }
             }
         }
 
         function stopTimer(row) {
-            const timerIndex = timers[row - 1].findIndex(t => t === timers[row - 1].find(t => t > 0)); // Encontra o último timer ativo
-            if (timerIndex !== -1 && timerIntervals[row - 1][timerIndex]) {
-                clearInterval(timerIntervals[row - 1][timerIndex]);
-                timerIntervals[row - 1][timerIndex] = null;
+            if (currentTimer[row - 1] < 5 && timerIntervals[row - 1][currentTimer[row - 1]]) {
+                clearInterval(timerIntervals[row - 1][currentTimer[row - 1]]);
+                timerIntervals[row - 1][currentTimer[row - 1]] = null;
+                endTime[row - 1] = Date.now();
+                currentTimer[row - 1]++;
             }
         }
 
@@ -185,16 +198,14 @@
         function generateDashboard() {
             const activities = [];
             const times = [];
-            const startTimesArray = [];
 
-            for (let i = 1; i <= 15; i++) {
+            for (let i = 1; i <= 10; i++) {
                 const activity = document.getElementById(`atividade${i}`);
                 if (activity && activity.value) {
                     const totalSeconds = timers[i - 1].reduce((a, b) => a + b, 0);
                     const totalTime = totalSeconds / 60; // Convertendo para minutos
                     activities.push(activity.value);
                     times.push(totalTime);
-                    startTimesArray.push(startTimes[i - 1] ? startTimes[i - 1].toLocaleTimeString() : 'N/A');
                 }
             }
 
@@ -220,8 +231,9 @@
                 }
             });
 
-            // Exibindo o horário de início no console (ou outro lugar se necessário)
-            console.log('Horários de Início:', startTimesArray);
+            // Exibir tempo total registrado
+            const totalTime = endTime[0] - startTime[0]; // Supondo que você quer o tempo da primeira atividade
+            document.getElementById('totalTime').textContent = formatTime(totalTime / 1000);
         }
     </script>
 </body>
