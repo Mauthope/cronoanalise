@@ -11,12 +11,10 @@
             margin: 0;
             padding: 20px;
         }
-
         h1 {
             text-align: center;
             color: #333;
         }
-
         table {
             width: 100%;
             border-collapse: collapse;
@@ -24,18 +22,15 @@
             box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
             background-color: white;
         }
-
         th, td {
             border: 1px solid #ddd;
             padding: 10px;
             text-align: center;
         }
-
         th {
             background-color: #4CAF50;
             color: white;
         }
-
         button {
             padding: 8px 16px;
             margin: 4px;
@@ -45,24 +40,19 @@
             cursor: pointer;
             color: black;
         }
-
         button[onclick*="startTimer"] {
-            background-color: #4CAF50; /* Verde para o botão Start */
+            background-color: #4CAF50;
         }
-
         button[onclick*="stopTimer"] {
-            background-color: #f44336; /* Vermelho para o botão Stop */
+            background-color: #f44336;
         }
-
         button:hover {
             opacity: 0.8;
         }
-
         img {
             width: 100px;
             display: none;
         }
-
         #chartContainer {
             width: 80%;
             margin: 20px auto;
@@ -72,14 +62,12 @@
             box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
         }
     </style>
-
-    <!-- Adicionando a biblioteca Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <h1>Formulário de Cronoanálise</h1>
     <form id="cronoanalise-form">
-        <table>
+        <table id="tabela">
             <thead>
                 <tr>
                     <th>Atividade</th>
@@ -91,59 +79,59 @@
                     <th>Cronômetro 3</th>
                     <th>Cronômetro 4</th>
                     <th>Cronômetro 5</th>
-                    <th>Cronômetro Extra</th> <!-- Novo cabeçalho para o cronômetro extra -->
                     <th>Soma do Tempo</th>
                     <th>Melhorias</th>
                 </tr>
             </thead>
             <tbody>
+                <!-- Linhas do formulário aqui... -->
+                <!-- Exemplo com uma linha -->
                 <tr>
-                    <td><input type="text" id="atividadeExtra" placeholder="Nova atividade" style="width: 300px; height: 50px;"></td>
-                    <td><button type="button" onclick="capturePhoto('Extra')">Foto</button><img id="fotoExtra"></td>
-                    <td><button type="button" onclick="startTimer('Extra')">Start</button></td>
-                    <td><button type="button" onclick="stopTimer('Extra')">Stop</button></td>
-                    <td><span id="cronometroExtra">0:00</span></td>
-                    <td colspan="7"></td> <!-- Coluna preenchida para alinhar -->
-                    <td><span id="somaTempoExtra">0:00</span></td>
+                    <td><input type="text" id="atividade1" placeholder="Descreva a atividade" style="width: 300px; height: 50px;"></td>
+                    <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
+                    <td><button type="button" onclick="startTimer(1)">Start</button></td>
+                    <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
+                    <td><span id="cronometro1_1">0:00</span></td>
+                    <td><span id="cronometro1_2">0:00</span></td>
+                    <td><span id="cronometro1_3">0:00</span></td>
+                    <td><span id="cronometro1_4">0:00</span></td>
+                    <td><span id="cronometro1_5">0:00</span></td>
+                    <td><span id="somaTempo1">0:00</span></td>
                     <td><textarea placeholder="Sugestões de melhoria" style="width: 300px; height: 50px; resize: none;" wrap="soft"></textarea></td>
                 </tr>
-                <!-- Repita as outras linhas conforme necessário -->
+                <!-- Adicione mais linhas conforme necessário -->
             </tbody>
         </table>
+        <button type="button" onclick="downloadCSV()">Download CSV</button>
     </form>
-    <div id="chartContainer">
-        <!-- Conteúdo adicional, como gráficos, pode ser adicionado aqui -->
-    </div>
 
-    <!-- Funções JavaScript para controle dos cronômetros -->
     <script>
-        let timers = {};
-        let intervals = {};
+        function downloadCSV() {
+            const table = document.getElementById("tabela");
+            let csvContent = "";
+            
+            // Adiciona o cabeçalho da tabela
+            const headers = table.querySelectorAll("thead th");
+            const headerRow = Array.from(headers).map(th => th.textContent).join(",");
+            csvContent += headerRow + "\r\n";
+            
+            // Adiciona as linhas de dados
+            const rows = table.querySelectorAll("tbody tr");
+            rows.forEach(row => {
+                const cells = row.querySelectorAll("td, span, textarea");
+                const rowData = Array.from(cells).map(cell => cell.textContent || cell.value).join(",");
+                csvContent += rowData + "\r\n";
+            });
 
-        function startTimer(id) {
-            if (!timers[id]) timers[id] = 0;
-            if (!intervals[id]) {
-                intervals[id] = setInterval(function() {
-                    timers[id]++;
-                    document.getElementById('cronometro' + id).textContent = formatTime(timers[id]);
-                }, 1000);
-            }
-        }
-
-        function stopTimer(id) {
-            clearInterval(intervals[id]);
-            intervals[id] = null;
-        }
-
-        function formatTime(seconds) {
-            const mins = Math.floor(seconds / 60);
-            const secs = seconds % 60;
-            return `${mins}:${secs < 10 ? '0' : ''}${secs}`;
-        }
-
-        function capturePhoto(id) {
-            // Função de exemplo para capturar foto
-            document.getElementById('foto' + id).style.display = 'block';
+            // Cria um link de download
+            const blob = new Blob([csvContent], { type: "text/csv;charset=utf-8;" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = "cronoanalise.csv";
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
     </script>
 </body>
