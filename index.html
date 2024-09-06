@@ -68,23 +68,36 @@
 
     <!-- Scripts para cronômetros e download CSV -->
     <script>
-        const timers = {}; // Para rastrear todos os cronômetros
+        const timers = {}; // Objeto para rastrear todos os cronômetros
 
-        function startTimer(rowId, timerId) {
-            if (!timers[`${rowId}_${timerId}`]) {
-                timers[`${rowId}_${timerId}`] = { startTime: Date.now(), interval: null };
+        function startTimer(rowId) {
+            if (!timers[rowId]) { // Inicializa o objeto timer para a linha específica
+                timers[rowId] = { currentTimer: 1, intervals: {}, startTime: {} };
+            }
 
-                timers[`${rowId}_${timerId}`].interval = setInterval(() => {
-                    const elapsed = Math.floor((Date.now() - timers[`${rowId}_${timerId}`].startTime) / 1000);
-                    document.getElementById(`cronometro${rowId}_${timerId}`).innerText = formatTime(elapsed);
+            const currentTimer = timers[rowId].currentTimer; // Obtém o número do cronômetro atual
+
+            // Verifica se o cronômetro atual já está em execução
+            if (!timers[rowId].intervals[currentTimer]) {
+                timers[rowId].startTime[currentTimer] = Date.now(); // Define o tempo de início
+                timers[rowId].intervals[currentTimer] = setInterval(() => {
+                    const elapsed = Math.floor((Date.now() - timers[rowId].startTime[currentTimer]) / 1000);
+                    document.getElementById(`cronometro${rowId}_${currentTimer}`).innerText = formatTime(elapsed);
                 }, 1000);
             }
         }
 
-        function stopTimer(rowId, timerId) {
-            if (timers[`${rowId}_${timerId}`] && timers[`${rowId}_${timerId}`].interval) {
-                clearInterval(timers[`${rowId}_${timerId}`].interval);
-                timers[`${rowId}_${timerId}`].interval = null;
+        function stopTimer(rowId) {
+            const currentTimer = timers[rowId].currentTimer; // Obtém o número do cronômetro atual
+
+            if (timers[rowId].intervals[currentTimer]) {
+                clearInterval(timers[rowId].intervals[currentTimer]); // Para o cronômetro atual
+                timers[rowId].intervals[currentTimer] = null;
+
+                // Incrementa para o próximo cronômetro, se houver
+                if (timers[rowId].currentTimer < 5) {
+                    timers[rowId].currentTimer++;
+                }
             }
         }
 
