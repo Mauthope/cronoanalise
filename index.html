@@ -68,22 +68,27 @@
 
     <!-- Scripts para cronômetros e download CSV -->
     <script>
-        const timers = {};
+        const timers = {}; // Para rastrear todos os cronômetros
 
-        function startTimer(id) {
-            if (!timers[id]) {
-                timers[id] = { startTime: Date.now(), interval: null };
-                timers[id].interval = setInterval(() => {
-                    const elapsed = Math.floor((Date.now() - timers[id].startTime) / 1000);
-                    document.getElementById(`cronometro${id}_1`).innerText = formatTime(elapsed);
-                }, 1000);
+        function startTimer(rowId) {
+            if (!timers[rowId]) {
+                timers[rowId] = { startTime: Date.now(), interval: [] };
+
+                for (let i = 1; i <= 5; i++) {
+                    timers[rowId].interval[i] = setInterval(() => {
+                        const elapsed = Math.floor((Date.now() - timers[rowId].startTime) / 1000);
+                        document.getElementById(`cronometro${rowId}_${i}`).innerText = formatTime(elapsed);
+                    }, 1000);
+                }
             }
         }
 
-        function stopTimer(id) {
-            if (timers[id] && timers[id].interval) {
-                clearInterval(timers[id].interval);
-                timers[id].interval = null;
+        function stopTimer(rowId) {
+            if (timers[rowId] && timers[rowId].interval) {
+                for (let i = 1; i <= 5; i++) {
+                    clearInterval(timers[rowId].interval[i]);
+                    timers[rowId].interval[i] = null;
+                }
             }
         }
 
