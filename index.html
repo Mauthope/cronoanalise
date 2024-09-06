@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário de Cronoanálise</title>
     <style>
-        /* Estilos de página e tabela */
         body { font-family: Arial, sans-serif; background-color: #f5f5f5; margin: 0; padding: 20px; }
         h1 { text-align: center; color: #333; }
         table { width: 100%; border-collapse: collapse; margin-bottom: 20px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); background-color: white; }
@@ -18,19 +17,16 @@
         img { width: 100px; display: none; }
         #chartContainer { width: 80%; margin: 20px auto; padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); }
     </style>
-    <!-- Biblioteca Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <h1>Formulário de Cronoanálise</h1>
-    <!-- Botões de dashboard e download -->
     <div>
         <button onclick="generateCSV()">Download CSV</button>
     </div>
 
     <form id="cronoanalise-form">
         <table>
-            <!-- Cabeçalho da tabela -->
             <thead>
                 <tr>
                     <th>Atividade</th>
@@ -47,7 +43,6 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Exemplo de linha da tabela -->
                 <tr>
                     <td><input type="text" id="atividade1" placeholder="Descreva a atividade" style="width: 300px; height: 50px;"></td>
                     <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
@@ -61,50 +56,62 @@
                     <td><span id="somaTempo1">0:00</span></td>
                     <td><textarea placeholder="Sugestões de melhoria" style="width: 300px; height: 50px; resize: none;" wrap="soft"></textarea></td>
                 </tr>
-                <!-- Outras linhas da tabela continuam... -->
             </tbody>
         </table>
     </form>
 
-    <!-- Scripts para cronômetros e download CSV -->
     <script>
-        const timers = {}; // Objeto para rastrear todos os cronômetros
+        const timers = {};
 
         function startTimer(rowId) {
-            if (!timers[rowId]) { // Inicializa o objeto timer para a linha específica
-                timers[rowId] = { currentTimer: 1, intervals: {}, startTime: {} };
+            if (!timers[rowId]) {
+                timers[rowId] = { currentTimer: 1, intervals: {}, startTime: {}, elapsedTime: {} };
             }
 
-            const currentTimer = timers[rowId].currentTimer; // Obtém o número do cronômetro atual
+            const currentTimer = timers[rowId].currentTimer;
 
-            // Verifica se o cronômetro atual já está em execução
             if (!timers[rowId].intervals[currentTimer]) {
-                timers[rowId].startTime[currentTimer] = Date.now(); // Define o tempo de início
+                timers[rowId].startTime[currentTimer] = Date.now();
                 timers[rowId].intervals[currentTimer] = setInterval(() => {
                     const elapsed = Math.floor((Date.now() - timers[rowId].startTime[currentTimer]) / 1000);
+                    timers[rowId].elapsedTime[currentTimer] = elapsed;
                     document.getElementById(`cronometro${rowId}_${currentTimer}`).innerText = formatTime(elapsed);
                 }, 1000);
             }
         }
 
         function stopTimer(rowId) {
-            const currentTimer = timers[rowId].currentTimer; // Obtém o número do cronômetro atual
+            const currentTimer = timers[rowId].currentTimer;
 
             if (timers[rowId].intervals[currentTimer]) {
-                clearInterval(timers[rowId].intervals[currentTimer]); // Para o cronômetro atual
+                clearInterval(timers[rowId].intervals[currentTimer]);
                 timers[rowId].intervals[currentTimer] = null;
 
-                // Incrementa para o próximo cronômetro, se houver
+                calculateTotalTime(rowId); // Calcula a soma do tempo após cada parada
+
                 if (timers[rowId].currentTimer < 5) {
                     timers[rowId].currentTimer++;
                 }
             }
         }
 
+        function calculateTotalTime(rowId) {
+            let totalSeconds = 0;
+
+            for (let i = 1; i <= 5; i++) {
+                if (timers[rowId].elapsedTime[i]) {
+                    totalSeconds += timers[rowId].elapsedTime[i];
+                }
+            }
+
+            document.getElementById(`somaTempo1`).innerText = formatTime(totalSeconds);
+        }
+
         function formatTime(seconds) {
-            const minutes = Math.floor(seconds / 60);
+            const hours = Math.floor(seconds / 3600);
+            const minutes = Math.floor((seconds % 3600) / 60);
             const remainingSeconds = seconds % 60;
-            return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
+            return `${hours}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
         }
 
         function generateCSV() {
