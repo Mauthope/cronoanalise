@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário de Cronoanálise</title>
-   <style>
-    body {
+    <style>
+       body {
         font-family: Arial, sans-serif;
         background-color: #f5f5f5;
         margin: 0;
@@ -71,14 +71,13 @@
         border-radius: 8px;
         box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     }
-</style>
-
+    </style>
     <!-- Adicionando a biblioteca Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
     <h1>Formulário de Cronoanálise</h1>
-    <form id="cronoanalise-form">
+   <form id="cronoanalise-form">
         <table>
             <thead>
                 <tr>
@@ -233,108 +232,36 @@
         </table>
     </form>
 
-    <!-- Botão para gerar o gráfico -->
-    <button onclick="generateDashboard()">Gerar Dashboard</button>
-
-    <!-- Container para o gráfico -->
-    <div id="chartContainer">
-        <canvas id="chart"></canvas>
+    <!-- Botão de Dashboard e Download -->
+    <div>
+        <button onclick="abrirDashboard()">Dashboard</button>
+        <button onclick="downloadCSV()">Download CSV</button>
     </div>
 
     <script>
-        const timers = Array(15).fill().map(() => [0, 0, 0, 0, 0]);
-        const timerIntervals = Array(15).fill().map(() => [null, null, null, null, null]);
-        let currentTimer = Array(15).fill(0);
-
-        function startTimer(row) {
-            if (currentTimer[row - 1] < 5) {
-                const timerIndex = currentTimer[row - 1];
-                if (!timerIntervals[row - 1][timerIndex]) {
-                    timerIntervals[row - 1][timerIndex] = setInterval(() => {
-                        timers[row - 1][timerIndex]++;
-                        document.getElementById(`cronometro${row}_${timerIndex + 1}`).textContent = formatTime(timers[row - 1][timerIndex]);
-                        updateSum(row);
-                    }, 1000);
-                }
-            }
+        function abrirDashboard() {
+            // Função para abrir o Dashboard
         }
 
-        function stopTimer(row) {
-            if (currentTimer[row - 1] < 5 && timerIntervals[row - 1][currentTimer[row - 1]]) {
-                clearInterval(timerIntervals[row - 1][currentTimer[row - 1]]);
-                timerIntervals[row - 1][currentTimer[row - 1]] = null;
-                currentTimer[row - 1]++;
-            }
-        }
+        function downloadCSV() {
+            let csvContent = "data:text/csv;charset=utf-8,";
+            const rows = document.querySelectorAll("table tr");
 
-        function formatTime(seconds) {
-            const minutes = Math.floor(seconds / 60);
-            const secs = seconds % 60;
-            return `${minutes}:${secs < 10 ? '0' : ''}${secs}`;
-        }
-
-        function updateSum(row) {
-            const total = timers[row - 1].reduce((a, b) => a + b, 0);
-            document.getElementById(`somaTempo${row}`).textContent = formatTime(total);
-        }
-
-        function capturePhoto(row) {
-            const fotoElement = document.getElementById(`foto${row}`);
-            navigator.mediaDevices.getUserMedia({ video: true })
-                .then((stream) => {
-                    fotoElement.style.display = 'block';
-                    const video = document.createElement('video');
-                    video.srcObject = stream;
-                    video.play();
-                    setTimeout(() => {
-                        const canvas = document.createElement('canvas');
-                        canvas.width = video.videoWidth;
-                        canvas.height = video.videoHeight;
-                        canvas.getContext('2d').drawImage(video, 0, 0);
-                        fotoElement.src = canvas.toDataURL('image/png');
-                        stream.getTracks().forEach(track => track.stop());
-                    }, 2000);
-                })
-                .catch((err) => {
-                    alert('Erro ao acessar a câmera: ' + err);
+            rows.forEach(row => {
+                let rowData = [];
+                row.querySelectorAll("td, th").forEach(cell => {
+                    rowData.push(cell.innerText);
                 });
-        }
-
-        function generateDashboard() {
-            const activities = [];
-            const times = [];
-
-            for (let i = 1; i <= 15; i++) {
-                const activity = document.getElementById(`atividade${i}`);
-                if (activity && activity.value) {
-                    const totalSeconds = timers[i - 1].reduce((a, b) => a + b, 0);
-                    const totalTime = totalSeconds / 60; // Convertendo para minutos
-                    activities.push(activity.value);
-                    times.push(totalTime);
-                }
-            }
-
-            const ctx = document.getElementById('chart').getContext('2d');
-            new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: activities,
-                    datasets: [{
-                        label: 'Tempo Médio das Atividades (minutos)',
-                        data: times,
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    }]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
+                csvContent += rowData.join(",") + "\r\n";
             });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "cronoanalise.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
         }
     </script>
 </body>
