@@ -70,25 +70,21 @@
     <script>
         const timers = {}; // Para rastrear todos os cronômetros
 
-        function startTimer(rowId) {
-            if (!timers[rowId]) {
-                timers[rowId] = { startTime: Date.now(), interval: [] };
+        function startTimer(rowId, timerId) {
+            if (!timers[`${rowId}_${timerId}`]) {
+                timers[`${rowId}_${timerId}`] = { startTime: Date.now(), interval: null };
 
-                for (let i = 1; i <= 5; i++) {
-                    timers[rowId].interval[i] = setInterval(() => {
-                        const elapsed = Math.floor((Date.now() - timers[rowId].startTime) / 1000);
-                        document.getElementById(`cronometro${rowId}_${i}`).innerText = formatTime(elapsed);
-                    }, 1000);
-                }
+                timers[`${rowId}_${timerId}`].interval = setInterval(() => {
+                    const elapsed = Math.floor((Date.now() - timers[`${rowId}_${timerId}`].startTime) / 1000);
+                    document.getElementById(`cronometro${rowId}_${timerId}`).innerText = formatTime(elapsed);
+                }, 1000);
             }
         }
 
-        function stopTimer(rowId) {
-            if (timers[rowId] && timers[rowId].interval) {
-                for (let i = 1; i <= 5; i++) {
-                    clearInterval(timers[rowId].interval[i]);
-                    timers[rowId].interval[i] = null;
-                }
+        function stopTimer(rowId, timerId) {
+            if (timers[`${rowId}_${timerId}`] && timers[`${rowId}_${timerId}`].interval) {
+                clearInterval(timers[`${rowId}_${timerId}`].interval);
+                timers[`${rowId}_${timerId}`].interval = null;
             }
         }
 
