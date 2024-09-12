@@ -23,7 +23,6 @@
     <h1>Formulário de Cronoanálise</h1>
     <div>
         <button onclick="generateCSV()">Download CSV</button>
-        <button onclick="clearFields()">Limpar</button> <!-- Botão Limpar -->
     </div>
 
     <form id="cronoanalise-form">
@@ -44,16 +43,14 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Exemplos de linhas modificadas -->
                 <tr>
-                    <td><input type="text" id="atividade1" placeholder="Descreva a atividade" style="width: 300px; height: 50px;" oninput="saveData(this.id, this.value)"></td>
+                    <td><input type="text" id="atividade1" placeholder="Inicio e fim da atividade" style="width: 300px; height: 50px;" oninput="saveData('atividade1')" readonly></td>
                     <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
                     <td><button type="button" onclick="startTimer(1)">Start</button></td>
                     <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
                     <td><span id="cronometro1_1">0:00</span></td>
-                    <!-- Outros campos permanecem iguais -->
                 </tr>
-                <tr>
+<tr>
                     <td><input type="text" id="atividade2" placeholder="Descreva a atividade" style="width: 300px; height: 50px;"></td>
                     <td><button type="button" onclick="capturePhoto(2)">Foto</button><img id="foto2"></td>
                     <td><button type="button" onclick="startTimer(2)">Start</button></td>
@@ -175,6 +172,26 @@
     </form>
 
     <script>
+        // Função para salvar os dados no localStorage
+        function saveData(id) {
+            const value = document.getElementById(id).value;
+            localStorage.setItem(id, value);
+        }
+
+        // Função para carregar os dados do localStorage
+        function loadData() {
+            const elements = document.querySelectorAll('input[type="text"]');
+            elements.forEach(element => {
+                const id = element.id;
+                const value = localStorage.getItem(id);
+                if (value) {
+                    element.value = value;
+                }
+            });
+        }
+
+        window.onload = loadData;
+
         const timers = {};
 
         function startTimer(rowId) {
@@ -184,30 +201,32 @@
 
             const currentTimer = timers[rowId].currentTimer;
 
-            // Lógica para iniciar o cronômetro
+            if (!timers[rowId].intervals[currentTimer]) {
+                timers[rowId].startTime[currentTimer] = Date.now() - (timers[rowId].elapsedTime[currentTimer] || 0);
+                timers[rowId].intervals[currentTimer] = setInterval(() => {
+                    const elapsed = Date.now() - timers[rowId].startTime[currentTimer];
+                    const minutes = Math.floor(elapsed / 60000);
+                    const seconds = Math.floor((elapsed % 60000) / 1000);
+                    document.getElementById(`cronometro${rowId}_${currentTimer}`).textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                    saveTimerData(rowId, currentTimer, minutes, seconds);
+                }, 1000);
+            }
         }
 
-        function saveData(key, value) {
-            localStorage.setItem(key, value);
+        function stopTimer(rowId) {
+            const currentTimer = timers[rowId].currentTimer;
+            clearInterval(timers[rowId].intervals[currentTimer]);
+            timers[rowId].elapsedTime[currentTimer] = Date.now() - timers[rowId].startTime[currentTimer];
         }
 
-        function loadData() {
-            const fields = document.querySelectorAll("input[type='text'], textarea");
-            fields.forEach(field => {
-                const savedValue = localStorage.getItem(field.id);
-                if (savedValue) {
-                    field.value = savedValue;
-                }
-            });
+        // Função para capturar a foto
+        function capturePhoto(rowId) {
+            // Implementar função de captura de foto
         }
 
-        function clearFields() {
-            localStorage.clear();
-            const fields = document.querySelectorAll("input[type='text'], textarea");
-            fields.forEach(field => field.value = '');
+        function saveTimerData(rowId, timerId, minutes, seconds) {
+            localStorage.setItem(`timer-${rowId}-${timerId}`, `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`);
         }
-
-        window.onload = loadData;
     </script>
 </body>
 </html>
