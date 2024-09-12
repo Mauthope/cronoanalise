@@ -23,6 +23,7 @@
     <h1>Formulário de Cronoanálise</h1>
     <div>
         <button onclick="generateCSV()">Download CSV</button>
+        <button onclick="clearFields()">Limpar</button> <!-- Botão Limpar -->
     </div>
 
     <form id="cronoanalise-form">
@@ -43,15 +44,14 @@
                 </tr>
             </thead>
             <tbody>
-                  <tr style="background-color: #90ee90;"> <!-- Substitua #f0f0f0 pela cor desejada -->
-    <td><input type="text" id="atividade1" placeholder="Inicio e fim da atividade" 
-               value="Inicio e fim da Atividade" 
-               style="width: 300px; height: 50px;" readonly></td>
-    <td><button type="button" onclick="capturePhoto(1)">Foto</button><img id="foto1"></td>
-    <td><button type="button" onclick="startTimer(1)">Start</button></td>
-    <td><button type="button" onclick="stopTimer(1)">Stop</button></td>
-    <td><span id="cronometro1_1">0:00</span></td>
-</tr>
+                <!-- Exemplos de linhas modificadas -->
+                <tr>
+                    <td><input type="text" id="atividade2" placeholder="Descreva a atividade" style="width: 300px; height: 50px;" oninput="saveData(this.id, this.value)"></td>
+                    <td><button type="button" onclick="capturePhoto(2)">Foto</button><img id="foto2"></td>
+                    <td><button type="button" onclick="startTimer(2)">Start</button></td>
+                    <td><button type="button" onclick="stopTimer(2)">Stop</button></td>
+                    <!-- Outros campos permanecem iguais -->
+                </tr>
                 <tr>
                     <td><input type="text" id="atividade2" placeholder="Descreva a atividade" style="width: 300px; height: 50px;"></td>
                     <td><button type="button" onclick="capturePhoto(2)">Foto</button><img id="foto2"></td>
@@ -183,66 +183,30 @@
 
             const currentTimer = timers[rowId].currentTimer;
 
-            if (!timers[rowId].intervals[currentTimer]) {
-                timers[rowId].startTime[currentTimer] = Date.now();
-                timers[rowId].intervals[currentTimer] = setInterval(() => {
-                    const elapsed = Math.floor((Date.now() - timers[rowId].startTime[currentTimer]) / 1000);
-                    timers[rowId].elapsedTime[currentTimer] = elapsed;
-                    document.getElementById(`cronometro${rowId}_${currentTimer}`).innerText = formatTime(elapsed);
-                }, 1000);
-            }
+            // Lógica para iniciar o cronômetro
         }
 
-        function stopTimer(rowId) {
-            const currentTimer = timers[rowId].currentTimer;
+        function saveData(key, value) {
+            localStorage.setItem(key, value);
+        }
 
-            if (timers[rowId].intervals[currentTimer]) {
-                clearInterval(timers[rowId].intervals[currentTimer]);
-                timers[rowId].intervals[currentTimer] = null;
-
-                calculateTotalTime(rowId); // Calcula a soma do tempo após cada parada
-
-                if (timers[rowId].currentTimer < 5) {
-                    timers[rowId].currentTimer++;
+        function loadData() {
+            const fields = document.querySelectorAll("input[type='text'], textarea");
+            fields.forEach(field => {
+                const savedValue = localStorage.getItem(field.id);
+                if (savedValue) {
+                    field.value = savedValue;
                 }
-            }
-        }
-
-        function calculateTotalTime(rowId) {
-            let totalSeconds = 0;
-
-            for (let i = 1; i <= 5; i++) {
-                if (timers[rowId].elapsedTime[i]) {
-                    totalSeconds += timers[rowId].elapsedTime[i];
-                }
-            }
-
-            document.getElementById(`somaTempo${rowId}`).innerText = formatTime(totalSeconds);
-        }
-
-        function formatTime(seconds) {
-            const hours = Math.floor(seconds / 3600);
-            const minutes = Math.floor((seconds % 3600) / 60);
-            const remainingSeconds = seconds % 60;
-            return `${hours}:${minutes.toString().padStart(2, '0')}:${remainingSeconds.toString().padStart(2, '0')}`;
-        }
-
-        function generateCSV() {
-            const rows = document.querySelectorAll("table tbody tr");
-            let csvContent = "Atividade,Cronômetro 1,Cronômetro 2,Cronômetro 3,Cronômetro 4,Cronômetro 5,Soma do Tempo,Melhorias\n";
-
-            rows.forEach(row => {
-                const cols = row.querySelectorAll("td input, td span, td textarea");
-                const rowData = Array.from(cols).map(col => col.value || col.innerText).join(",");
-                csvContent += rowData + "\n";
             });
-
-            const blob = new Blob([csvContent], { type: 'text/csv' });
-            const link = document.createElement('a');
-            link.href = URL.createObjectURL(blob);
-            link.download = 'cronoanalise.csv';
-            link.click();
         }
+
+        function clearFields() {
+            localStorage.clear();
+            const fields = document.querySelectorAll("input[type='text'], textarea");
+            fields.forEach(field => field.value = '');
+        }
+
+        window.onload = loadData;
     </script>
 </body>
 </html>
