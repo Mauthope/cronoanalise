@@ -168,17 +168,43 @@
 
         function clearLocalStorage() {
             if (confirm("Tem certeza de que deseja limpar todos os dados?")) {
-                localStorage.clear();
+                localStorage.clear(); // Limpa todos os dados do localStorage
                 for (let i = 1; i <= activities; i++) {
                     timers[i].currentTimer = 1; // Reinicia o cronômetro atual para 1
+                    timers[i].elapsedTime = {}; // Limpa o tempo armazenado
+                    for (let j = 1; j <= 5; j++) {
+                        document.getElementById(`cronometro${i}_${j}`).textContent = '0:00'; // Reseta a exibição dos cronômetros
+                    }
+                    document.getElementById(`mediaTempo${i}`).textContent = '0:00'; // Reseta a exibição da média
                 }
-                loadActivities(); // Recarregar a interface
-                alert("Todos os dados foram limpos.");
+                loadActivities(); // Recarrega as atividades para limpar o formulário
+                alert("Dados limpos com sucesso!");
             }
         }
 
         function generateCSV() {
-            // Implementar lógica de geração de CSV
+            let csvContent = "Atividade, Start, Stop, Cronômetro 1, Cronômetro 2, Cronômetro 3, Cronômetro 4, Cronômetro 5, Média de Tempo, Melhorias\n";
+
+            for (let i = 1; i <= activities; i++) {
+                const activity = document.getElementById(`atividade${i}`).value || "";
+                const improvement = document.getElementById(`melhoria${i}`).value || "";
+                let line = `${activity},,`;
+
+                for (let j = 1; j <= 5; j++) {
+                    const elapsedTime = timers[i].elapsedTime[j] || 0;
+                    line += formatTime(elapsedTime) + ",";
+                }
+
+                const averageTime = document.getElementById(`mediaTempo${i}`).textContent;
+                line += `${averageTime},${improvement}\n`;
+                csvContent += line;
+            }
+
+            const hiddenElement = document.createElement('a');
+            hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvContent);
+            hiddenElement.target = '_blank';
+            hiddenElement.download = 'cronoanalise.csv';
+            hiddenElement.click();
         }
     </script>
 </body>
