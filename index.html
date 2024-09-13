@@ -22,6 +22,7 @@
     <h1>Formulário de Cronoanálise</h1>
     <div>
         <button onclick="generateCSV()">Download CSV</button>
+        <button onclick="clearLocalStorage()">Limpar Dados</button> <!-- Botão Limpar adicionado -->
     </div>
 
     <form id="cronoanalise-form">
@@ -153,6 +154,14 @@
 
         function generateCSV() {
             // Implementar lógica de geração de CSV
+        }
+
+        function clearLocalStorage() {
+            if (confirm("Tem certeza de que deseja limpar todos os dados?")) {
+                localStorage.clear();
+                loadActivities(); // Recarregar a interface
+                alert("Todos os dados foram limpos.");
+            }
         }
     </script>
 </body>
