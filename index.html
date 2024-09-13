@@ -186,6 +186,8 @@
 
             for (let i = 1; i <= activities; i++) {
                 const activity = document.getElementById(`atividade${i}`).value || "";
+                if (activity.trim() === "") continue; // Ignora linhas sem atividade preenchida
+
                 const improvement = document.getElementById(`melhoria${i}`).value || "";
                 let line = `${activity},`;
 
