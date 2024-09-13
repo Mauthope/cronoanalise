@@ -20,7 +20,7 @@
     <h1>Formulário de Cronoanálise</h1>
     <div>
         <button onclick="generateCSV()">Download CSV</button>
-        <button onclick="clearLocalStorage()">Limpar Dados</button> <!-- Botão Limpar -->
+        <button onclick="clearLocalStorage()">Limpar Dados</button>
     </div>
 
     <form id="cronoanalise-form">
@@ -182,12 +182,12 @@
         }
 
         function generateCSV() {
-            let csvContent = "Atividade, Start, Stop, Cronômetro 1, Cronômetro 2, Cronômetro 3, Cronômetro 4, Cronômetro 5, Média de Tempo, Melhorias\n";
+            let csvContent = "Atividade,Cronômetro 1,Cronômetro 2,Cronômetro 3,Cronômetro 4,Cronômetro 5,Média de Tempo,Melhorias\n";
 
             for (let i = 1; i <= activities; i++) {
                 const activity = document.getElementById(`atividade${i}`).value || "";
                 const improvement = document.getElementById(`melhoria${i}`).value || "";
-                let line = `${activity},,`;
+                let line = `${activity},`;
 
                 for (let j = 1; j <= 5; j++) {
                     const elapsedTime = timers[i].elapsedTime[j] || 0;
