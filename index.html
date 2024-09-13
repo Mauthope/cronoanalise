@@ -14,8 +14,6 @@
         button[onclick*="startTimer"] { background-color: #4CAF50; }
         button[onclick*="stopTimer"] { background-color: #f44336; }
         button:hover { opacity: 0.8; }
-        img { width: 100px; display: none; }
-        #chartContainer { width: 80%; margin: 20px auto; padding: 20px; background-color: white; border-radius: 8px; box-shadow: 0 0 15px rgba(0, 0, 0, 0.1); }
     </style>
 </head>
 <body>
@@ -30,7 +28,6 @@
             <thead>
                 <tr>
                     <th>Atividade</th>
-                    <th>Foto</th>
                     <th>Start</th>
                     <th>Stop</th>
                     <th>Cronômetro 1</th>
@@ -38,7 +35,7 @@
                     <th>Cronômetro 3</th>
                     <th>Cronômetro 4</th>
                     <th>Cronômetro 5</th>
-                    <th>Soma do Tempo</th>
+                    <th>Média de Tempo</th>
                     <th>Melhorias</th>
                 </tr>
             </thead>
@@ -67,7 +64,6 @@
                 tableBody.innerHTML += `
                     <tr>
                         <td><input type="text" id="atividade${i}" value="${activityDescription}" placeholder="Descreva a atividade" style="width: 300px; height: 50px;" oninput="saveActivity(${i})"></td>
-                        <td><button type="button" onclick="capturePhoto(${i})">Foto</button><img id="foto${i}"></td>
                         <td><button type="button" onclick="startTimer(${i})">Start</button></td>
                         <td><button type="button" onclick="stopTimer(${i})">Stop</button></td>
                         <td><span id="cronometro${i}_1">0:00</span></td>
@@ -75,7 +71,7 @@
                         <td><span id="cronometro${i}_3">0:00</span></td>
                         <td><span id="cronometro${i}_4">0:00</span></td>
                         <td><span id="cronometro${i}_5">0:00</span></td>
-                        <td><span id="somaTempo${i}">0:00</span></td>
+                        <td><span id="mediaTempo${i}">0:00</span></td>
                         <td><textarea id="melhoria${i}" placeholder="Sugestões de melhoria" style="width: 300px; height: 50px; resize: none;" wrap="soft" oninput="saveImprovement(${i})">${melhorias}</textarea></td>
                     </tr>
                 `;
@@ -106,6 +102,8 @@
                     timers[i].elapsedTime[j] = elapsedTime;
                     document.getElementById(`cronometro${i}_${j}`).textContent = formatTime(elapsedTime);
                 }
+
+                calculateAverageTime(i); // Calculate and display average time
             }
         }
 
@@ -126,6 +124,8 @@
 
             document.getElementById(`cronometro${rowId}_${currentTimer}`).textContent = formatTime(elapsedTime);
             localStorage.setItem(`cronometro${rowId}_${currentTimer}`, elapsedTime);
+
+            calculateAverageTime(rowId); // Update average time after each tick
         }
 
         function stopTimer(rowId) {
@@ -139,6 +139,8 @@
                 timers[rowId].elapsedTime[currentTimer] = elapsedTime;
                 timers[rowId].currentTimer = currentTimer < 5 ? currentTimer + 1 : 1;
                 localStorage.setItem(`currentTimer${rowId}`, timers[rowId].currentTimer);
+                
+                calculateAverageTime(rowId); // Recalculate average when the timer is stopped
             }
         }
 
@@ -148,12 +150,20 @@
             return `${minutes}:${remainingSeconds.toString().padStart(2, '0')}`;
         }
 
-        function capturePhoto(rowId) {
-            // Implementar lógica de captura de foto
-        }
+        function calculateAverageTime(rowId) {
+            let totalTime = 0;
+            let usedTimers = 0;
 
-        function generateCSV() {
-            // Implementar lógica de geração de CSV
+            for (let j = 1; j <= 5; j++) {
+                const elapsedTime = timers[rowId].elapsedTime[j] || 0;
+                if (elapsedTime > 0) {
+                    totalTime += elapsedTime;
+                    usedTimers++;
+                }
+            }
+
+            const averageTime = usedTimers > 0 ? Math.floor(totalTime / usedTimers) : 0;
+            document.getElementById(`mediaTempo${rowId}`).textContent = formatTime(averageTime);
         }
 
         function clearLocalStorage() {
@@ -162,6 +172,10 @@
                 loadActivities(); // Recarregar a interface
                 alert("Todos os dados foram limpos.");
             }
+        }
+
+        function generateCSV() {
+            // Implementar lógica de geração de CSV
         }
     </script>
 </body>
