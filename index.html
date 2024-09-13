@@ -156,7 +156,7 @@
 
             for (let j = 1; j <= 5; j++) {
                 const elapsedTime = timers[rowId].elapsedTime[j] || 0;
-                if (elapsedTime > 0) {
+                if (elapsedTime > 0) { // Verifica se o cronômetro foi utilizado
                     totalTime += elapsedTime;
                     usedTimers++;
                 }
@@ -175,9 +175,8 @@
                     for (let j = 1; j <= 5; j++) {
                         document.getElementById(`cronometro${i}_${j}`).textContent = '0:00'; // Reseta a exibição dos cronômetros
                     }
-                    document.getElementById(`mediaTempo${i}`).textContent = '0:00'; // Reseta a exibição da média
+                    document.getElementById(`mediaTempo${i}`).textContent = '0:00'; // Reseta a média
                 }
-                loadActivities(); // Recarrega as atividades para limpar o formulário
                 alert("Dados limpos com sucesso!");
             }
         }
